@@ -5,12 +5,14 @@ import $ from "jquery";
 import "@project-sunbird/sunbird-quml-player-web-component/styles.css";
 import "@project-sunbird/sunbird-quml-player-web-component/sunbird-quml-player";
 import { assessmentTracking } from "../../apis/assessment";
+import { useNavigate } from "react-router-dom";
 
 function Player() {
   let trackData = [];
   let apiCalled = false;
   const location = useLocation();
   const { sectionContent } = location.state || {};
+  const navigate = useNavigate();
 
   let metadata = sectionContent;
   const playerConfig = {
@@ -154,6 +156,9 @@ function Player() {
         scoreDetails = JSON.stringify(newFormatData);
         console.log(scoreDetails);
         await assessmentTracking(scoreDetails);
+        alert("Assessment submitted successfully")
+        navigate('/dashboard')
+        
       } else {
         console.log("End page not seen, API call not made.");
       }
