@@ -1,17 +1,10 @@
 import React from "react";
-import Header from "../components/common/header";
-import { Box, Button, Typography } from "@mui/material";
-import { useNavigate } from "react-router-dom";
+import Header from "../components/common/Header";
+import { Box, Typography } from "@mui/material";
+import CardComponent from "../components/common/Card";
+import { sectionContent } from "../components/player/playerData";
 
 function Dashboard() {
-    const navigate = useNavigate();
-
-    const handleAssessment = () => {
-
-        navigate('/assessment')
-
-      };
-
   return (
     <Box>
       <Header />
@@ -28,22 +21,9 @@ function Dashboard() {
         sx={{
           m: 2,
         }}
-      >
-        <Button
-          variant="contained"
-          sx={{
-            borderRadius: "50px",
-            mt: 2,
-            bgcolor: "#fdbe16", // Background color
-            "&:hover": {
-              bgcolor: "#dca10f", // Darker shade for hover state
-            },
-            color: "black", // Text color
-          }}
-          onClick={handleAssessment}
-        >
-          Take Assessment
-        </Button>
+      ></Box>
+      <Box>
+        <CardComponent sectionContent={sectionContent} />
       </Box>
     </Box>
   );

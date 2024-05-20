@@ -3,13 +3,21 @@ import React from 'react';
 import { AppBar, Toolbar    , Select, MenuItem, IconButton, Box, InputLabel } from '@mui/material';
 import { AccountCircle } from '@mui/icons-material';
 import logo from '../../assets/logoPratham.png'; // Update the path to your logo image
+import { useNavigate } from 'react-router-dom';
 
 const Header = () => {
+  const navigate = useNavigate();
   const [language, setLanguage] = React.useState();
 
   const handleChange = (event) => {
     setLanguage(event.target.value);
   };
+
+  const handleProfilePage = () => {
+
+    navigate('/profile')
+
+  }
 
   return (
     <AppBar position="static" sx={{ backgroundColor: 'white', boxShadow: 'none', borderBottom: '1px solid #e0e0e0' }}>
@@ -31,7 +39,7 @@ const Header = () => {
         
         </Box>
         <Box>
-          <IconButton edge="end" color="inherit">
+          <IconButton edge="end" color="inherit" onClick={handleProfilePage}>
             <AccountCircle style={{ color: 'black' }} />
           </IconButton>
         </Box>

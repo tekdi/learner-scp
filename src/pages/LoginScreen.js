@@ -21,6 +21,7 @@ const LoginScreen = () => {
     try {
       const result = await loginApi(data.username, data.password);
       console.log('Login successful:', result);
+      localStorage.setItem('authToken', result.access_token);
       navigate('/dashboard')
     } catch (error) {
       console.error('Login failed:', error.message);
