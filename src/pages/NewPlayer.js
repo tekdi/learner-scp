@@ -1,10 +1,10 @@
 import React from 'react'
 import Player from '../components/player/Player'
 
-function Home() {
+function NewPlayer() {
   return (
     <Player />
   )
 }
 
-export default Home
+export default NewPlayer

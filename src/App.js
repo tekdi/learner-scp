@@ -1,16 +1,17 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Home from "./pages/Home";
 import LoginScreen from "./pages/LoginScreen";
-
+import Dashboard from "./pages/Dashboard";
+import NewPlayer from "./pages/NewPlayer";
 
 function App() {
   return (
     <div>
       <Router>
         <Routes>
-          <Route path="/" element={<Home />} />  
-          <Route path="/login" element={<LoginScreen />} /> 
+          <Route path="/" element={<LoginScreen />} />  
+          <Route path="/assessment" element={<NewPlayer />} /> 
+          <Route path="/dashboard" element={<Dashboard />} /> 
         </Routes> 
       </Router>
     </div>

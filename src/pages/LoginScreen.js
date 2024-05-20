@@ -3,18 +3,29 @@ import { useForm, Controller } from 'react-hook-form';
 import { Box, Button, Checkbox, FormControl, FormControlLabel, InputLabel, OutlinedInput, MenuItem, Select, IconButton, InputAdornment } from '@mui/material';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import logo from "../assets/logoPratham.png";
+import { loginApi } from '../apis/loginApi';
+import { useNavigate } from 'react-router-dom';
+
 
 const LoginScreen = () => {
+
   const [showPassword, setShowPassword] = useState(false);
   const { control, handleSubmit } = useForm();
+  const navigate = useNavigate();
 
   const handleClickShowPassword = () => {
     setShowPassword((prev) => !prev);
   };
 
-  const onSubmit = (data) => {
-    console.log('Username:', data.username);
-    console.log('Password:', data.password);
+  const onSubmit = async (data) => {
+    try {
+      const result = await loginApi(data.username, data.password);
+      console.log('Login successful:', result);
+      navigate('/dashboard')
+    } catch (error) {
+      console.error('Login failed:', error.message);
+      
+    }
   };
 
   return (
@@ -67,7 +78,6 @@ const LoginScreen = () => {
             <Controller
               name="username"
               control={control}
-              defaultValue="mahima_shastri"
               render={({ field }) => (
                 <OutlinedInput
                   {...field}
@@ -82,7 +92,6 @@ const LoginScreen = () => {
             <Controller
               name="password"
               control={control}
-              defaultValue="password"
               render={({ field }) => (
                 <OutlinedInput
                   {...field}
