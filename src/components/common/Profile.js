@@ -3,7 +3,7 @@ import { Card, CardContent, CardHeader, Avatar, IconButton, Typography, Grid, Pa
 import EditIcon from '@mui/icons-material/Edit';
 import PhoneIcon from '@mui/icons-material/Phone';
 import EmailIcon from '@mui/icons-material/Email';
-import Header from './Header';
+import Header from './header';
 import { useNavigate } from "react-router-dom";
 
 const Profile = () => {
