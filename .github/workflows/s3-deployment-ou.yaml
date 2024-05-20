@@ -1,0 +1,53 @@
+name: Node CI
+
+on: [push]
+jobs:
+  build_and_test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Set up Node.js 20
+        uses: actions/setup-node@v3
+        with:
+          node-version: 20
+      - name: Set CI environment variable to false
+        run: echo "CI=false" >> $GITHUB_ENV
+      - name: npm install, build
+        run: |
+          npm install
+          npm run build --if-present
+
+      - name: Show PWD
+        run: |
+           echo "Current Working Directory:"
+           pwd
+
+      - name: List Contents
+        run: |
+           echo "Contents of the current directory (in reverse order):"
+            ls -lr
+
+      - name: List Contents
+        run: |
+           echo "Contents of the dist directory (in reverse order):"
+            cd /home/runner/work/learner-scp/learner-scp/build/
+            ls -lr
+            
+
+      - name: Install AWS CLI
+        run: |
+          sudo DEBIAN_FRONTEND=noninteractive apt-get install -y awscli
+
+      - name: Configure AWS credentials
+        run: |
+          aws configure set aws_access_key_id ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws configure set aws_secret_access_key ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws configure set default.region ${{ secrets.AWS_S3_BUCKET_REGION }}  
+
+      - name: Upload to s3 Bucket
+        run: |
+              aws s3 sync build s3://${{ secrets.AWS_S3_BUCKET }}/
+              aws cloudfront create-invalidation --distribution-id ${{ secrets.CLOUDFRONT_DISTRIBUTION_ID }} --paths "/*"
+            
+              
