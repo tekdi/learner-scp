@@ -1,5 +1,5 @@
 import React from "react";
-import Header from "../components/common/Header";
+import Header from "../components/common/header";
 import { Box, Typography } from "@mui/material";
 import CardComponent from "../components/common/Card";
 import { sectionContent } from "../components/player/playerData";
