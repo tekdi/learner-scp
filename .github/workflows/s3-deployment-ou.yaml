@@ -7,6 +7,8 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+      - name: Set CI environment variable to false
+        run: echo "CI=false" >> $GITHUB_ENV
       - name: npm install, build
         run: |
           npm install
