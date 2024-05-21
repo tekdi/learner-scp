@@ -8,6 +8,8 @@ import { useNavigate } from "react-router-dom";
 
 const Profile = () => {
     const navigate = useNavigate();
+    const name = localStorage.getItem('name')
+
     const handleLogout = () => {
       localStorage.clear();
         navigate("/")
@@ -32,7 +34,7 @@ const Profile = () => {
             <EditIcon />
           </IconButton>
         }
-        title="John Doe"
+        title={name}
         subheader="Pune, Maharashtra"
       />
       <CardContent>
