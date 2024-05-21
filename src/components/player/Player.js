@@ -72,7 +72,7 @@ function Player() {
   };
 
   const maxScore = sectionContent?.maxScore;
-  console.log(maxScore);
+  
 
   const sunbirdQumlPlayerRef = useRef(null);
   window.jQuery = $;
@@ -117,7 +117,7 @@ function Player() {
           });
         }
 
-        console.log(telemetry, trackData);
+        // console.log(telemetry, trackData);
         localStorage.setItem("trackDATA", JSON.stringify(trackData));
       } else if (telemetry?.eid === "END") {
         let milliseconds = event?.detail?.edata?.duration;
@@ -154,7 +154,7 @@ function Player() {
         }, []);
 
         scoreDetails = JSON.stringify(newFormatData);
-        console.log(scoreDetails);
+        // console.log(scoreDetails);
         await assessmentTracking(scoreDetails);
         alert("Assessment submitted successfully")
         navigate('/dashboard')

@@ -1,14 +1,24 @@
-import React, { useState } from 'react';
-import { useForm, Controller } from 'react-hook-form';
-import { Box, Button, Checkbox, FormControl, FormControlLabel, InputLabel, OutlinedInput, MenuItem, Select, IconButton, InputAdornment } from '@mui/material';
-import { Visibility, VisibilityOff } from '@mui/icons-material';
+import React, { useState } from "react";
+import { useForm, Controller } from "react-hook-form";
+import {
+  Box,
+  Button,
+  Checkbox,
+  FormControl,
+  FormControlLabel,
+  InputLabel,
+  OutlinedInput,
+  MenuItem,
+  Select,
+  IconButton,
+  InputAdornment,
+} from "@mui/material";
+import { Visibility, VisibilityOff } from "@mui/icons-material";
 import logo from "../assets/logoPratham.png";
-import { loginApi } from '../apis/loginApi';
-import { useNavigate } from 'react-router-dom';
-
+import { cohortSearch, loginApi, userIdApi } from "../apis/loginApi";
+import { useNavigate } from "react-router-dom";
 
 const LoginScreen = () => {
-
   const [showPassword, setShowPassword] = useState(false);
   const { control, handleSubmit } = useForm();
   const navigate = useNavigate();
@@ -20,24 +30,26 @@ const LoginScreen = () => {
   const onSubmit = async (data) => {
     try {
       const result = await loginApi(data.username, data.password);
-      console.log('Login successful:', result);
-      localStorage.setItem('authToken', result.access_token);
-      navigate('/dashboard')
+      console.log("Login successful");
+      localStorage.setItem("authToken", result.access_token);
+      const token = result.access_token;
+      const userID = await userIdApi(token)
+      const cohort = await cohortSearch(userID.result.userId)
+      navigate("/dashboard");
     } catch (error) {
-      console.error('Login failed:', error.message);
-      
+      console.error("Login failed:", error.message);
     }
   };
 
   return (
     <Box
       sx={{
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        justifyContent: 'center',
-        minHeight: '100vh',
-        backgroundColor: '#f0f0f5',
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "center",
+        minHeight: "100vh",
+        backgroundColor: "#f0f0f5",
         padding: 2,
       }}
     >
@@ -45,19 +57,27 @@ const LoginScreen = () => {
       <Box
         sx={{
           mt: 2,
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          backgroundColor: 'white',
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          backgroundColor: "white",
           padding: 3,
           borderRadius: 2,
           boxShadow: 3,
-          width: '100%',
+          width: "100%",
           maxWidth: 400,
         }}
       >
         <form onSubmit={handleSubmit(onSubmit)}>
-          <Box sx={{ display: 'flex', justifyContent: 'flex-start', width: '100%', mt: 1, height: '30px' }}>
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "flex-start",
+              width: "100%",
+              mt: 1,
+              height: "30px",
+            }}
+          >
             <Controller
               name="language"
               control={control}
@@ -66,7 +86,7 @@ const LoginScreen = () => {
                 <Select
                   {...field}
                   displayEmpty
-                  inputProps={{ 'aria-label': 'Without label' }}
+                  inputProps={{ "aria-label": "Without label" }}
                 >
                   <MenuItem value="English">English</MenuItem>
                   {/* Add more language options here if needed */}
@@ -80,11 +100,7 @@ const LoginScreen = () => {
               name="username"
               control={control}
               render={({ field }) => (
-                <OutlinedInput
-                  {...field}
-                  id="username"
-                  label="Username"
-                />
+                <OutlinedInput {...field} id="username" label="Username" />
               )}
             />
           </FormControl>
@@ -97,7 +113,7 @@ const LoginScreen = () => {
                 <OutlinedInput
                   {...field}
                   id="password"
-                  type={showPassword ? 'text' : 'password'}
+                  type={showPassword ? "text" : "password"}
                   label="Password"
                   endAdornment={
                     <InputAdornment position="end">
@@ -114,11 +130,23 @@ const LoginScreen = () => {
               )}
             />
           </FormControl>
-          <Box sx={{ display: 'flex', justifyContent: 'flex-start', width: '100%', mt: 1 }}>
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "flex-start",
+              width: "100%",
+              mt: 1,
+            }}
+          >
             <Button variant="text">Forgot Password?</Button>
           </Box>
           <FormControlLabel
-            sx={{ display: 'flex', justifyContent: 'flex-start', width: '100%', mt: 1 }}
+            sx={{
+              display: "flex",
+              justifyContent: "flex-start",
+              width: "100%",
+              mt: 1,
+            }}
             control={<Checkbox defaultChecked />}
             label="Remember Me"
           />
@@ -126,13 +154,13 @@ const LoginScreen = () => {
             type="submit"
             fullWidth
             sx={{
-              borderRadius: '50px',
+              borderRadius: "50px",
               mt: 2,
-              bgcolor: '#fdbe16', // Background color
-              '&:hover': {
-                bgcolor: '#dca10f', // Darker shade for hover state
+              bgcolor: "#fdbe16", // Background color
+              "&:hover": {
+                bgcolor: "#dca10f", // Darker shade for hover state
               },
-              color: 'black' // Text color
+              color: "black", // Text color
             }}
           >
             Login

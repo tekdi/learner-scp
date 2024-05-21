@@ -9,7 +9,7 @@ import { useNavigate } from "react-router-dom";
 const Profile = () => {
     const navigate = useNavigate();
     const handleLogout = () => {
-        localStorage.removeItem('authToken');
+      localStorage.clear();
         navigate("/")
       };
 
