@@ -12,8 +12,8 @@ export const assessmentStatusCheck = async (userId) => {
             "contentId": "do_2129493126207324161154"
           },
           "pagination": {
-            "pageSize": 0,
-            "page": 0
+            "pageSize": 1,
+            "page": 1
           },
           "sort": {
             "field": "userId",
