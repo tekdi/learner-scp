@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Header from "../components/common/header";
-import { Box, Typography, CircularProgress } from "@mui/material";
+import { Box, Typography, CircularProgress, List, ListItem, ListItemText } from "@mui/material";
 import CardComponent from "../components/common/Card";
 import { sectionContent } from "../components/player/playerData";
 import { assessmentStatusCheck } from "../apis/assessment";
@@ -9,6 +9,12 @@ import Loading from "../components/common/Loading";
 function Dashboard() {
   const [loading, setLoading] = useState(true);
   const [responseCode, setResponseCode] = useState(null);
+
+  const instructions = [
+    "Some instruction. Lorem ipsum dolor sit amet consectetur.",
+    "Some instruction. Lorem ipsum dolor sit amet consectetur.",
+    "Some instruction. Lorem ipsum dolor sit amet consectetur.",
+  ];
 
   useEffect(() => {
     const fetchAssessmentStatus = async () => {
@@ -29,21 +35,23 @@ function Dashboard() {
   }, []);
 
   return (
-    <Box>
+    <Box >
       <Header />
       <Box
         sx={{
           m: 2,
         }}
       >
-        <Typography variant="h5" component="h2">
-          My Assessment
-        </Typography>
+
       </Box>
       <Box
-        sx={{
-          m: 2,
-        }}
+       sx={{
+        display: "flex",
+        flexDirection: "column",
+        
+        alignItems: "center",
+       
+      }}
       >
         {loading ? (
           <Box
@@ -52,6 +60,7 @@ function Dashboard() {
               justifyContent: "center",
               alignItems: "center",
               minHeight: "50vh",
+              
             }}
           >
             <Loading />
@@ -60,6 +69,24 @@ function Dashboard() {
           <CardComponent sectionContent={sectionContent} responseCode={responseCode} />
         )}
       </Box>
+      <Box
+      sx={{
+        
+        padding: 3, // Padding inside the box
+        borderRadius: 1, // Rounded corners
+      }}
+    >
+      <Typography variant="h6" component="div" gutterBottom>
+        General Instructions
+      </Typography>
+      <List>
+        {instructions.map((instruction, index) => (
+          <ListItem key={index} sx={{ display: 'list-item' }}>
+            <ListItemText primary={instruction} />
+          </ListItem>
+        ))}
+      </List>
+    </Box>
     </Box>
   );
 }

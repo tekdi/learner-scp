@@ -1,13 +1,18 @@
 // Header.js
 import React from 'react';
-import { AppBar, Toolbar    , Select, MenuItem, IconButton, Box, InputLabel } from '@mui/material';
+import { AppBar, Toolbar    , Select, MenuItem, IconButton, Box, InputLabel, Button } from '@mui/material';
 import { AccountCircle } from '@mui/icons-material';
-import logo from '../../assets/logoPratham.png'; // Update the path to your logo image
+import logo from '../../assets/prathamSingle.png'; // Update the path to your logo image
 import { useNavigate } from 'react-router-dom';
-
+import { useLocation } from "react-router-dom";
 const Header = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const [language, setLanguage] = React.useState();
+
+  const isHome =
+  
+  location.pathname === "/assessment";
 
   const handleChange = (event) => {
     setLanguage(event.target.value);
@@ -19,11 +24,21 @@ const Header = () => {
 
   }
 
+  const handleLogout = () => {
+    localStorage.clear();
+      navigate("/login")
+    };
+
+    const handleHome = () => {
+     
+        navigate("/dashboard")
+      };
+
   return (
-    <AppBar position="static" sx={{ backgroundColor: 'white', boxShadow: 'none', borderBottom: '1px solid #e0e0e0' }}>
+    <AppBar position="static" sx={{ backgroundColor: 'white', boxShadow: 1, borderBottom: '1px solid #e0e0e0' }}>
       <Toolbar sx={{ justifyContent: 'space-between' }}>
         <Box sx={{ display: 'flex', alignItems: 'center' }}>
-          <Select
+          {/* <Select
            defaultValue={"EN"}
             value={language}
             onChange={handleChange}
@@ -31,18 +46,33 @@ const Header = () => {
             variant="outlined"
           >
             <MenuItem value="EN">EN</MenuItem>
-            {/* Add more language options here if needed */}
-          </Select>
-        </Box>
-        <Box sx={{ display: 'flex', alignItems: 'center' }}>
-          <img src={logo} alt="Pratham Logo" style={{ height: 45, marginRight: 8 }} />
+            
+          </Select> */}
+          <Box sx={{ display: 'flex', alignItems: 'center' }}>
+          <img src={logo} alt="Pratham Logo" style={{ height: 45, marginRight: 8 }} onClick={handleHome}/>
         
         </Box>
-        <Box>
-          <IconButton edge="end" color="inherit" onClick={handleProfilePage}>
-            <AccountCircle style={{ color: 'black' }} />
-          </IconButton>
         </Box>
+        {!isHome && (
+        <Box>
+          {/* <IconButton edge="end" color="inherit" onClick={handleProfilePage}>
+            <AccountCircle style={{ color: 'black' }} />
+          </IconButton> */}
+        
+          <Button
+          variant='outlined'
+            sx={{
+       
+                color:'black',
+              bgcolor: "#fdbe16", // Grayed out background color
+            }}
+            onClick={handleLogout}
+         
+          >
+             Logout
+           </Button>
+        </Box>
+        )}
       </Toolbar>
     </AppBar>
   );

@@ -41,7 +41,7 @@ const LoginScreen = () => {
       const token = result.access_token;
       const userID = await userIdApi(token);
       await cohortSearch(userID.result.userId);
-      navigate("/dashboard");
+      navigate("/");
     } catch (error) {
       console.error("Login failed:", error.message);
     } finally {

@@ -7,7 +7,7 @@ const ProtectedRoute = ({ element: Component, ...rest }) => {
   return isAuthenticated ? (
     <Component {...rest} />
   ) : (
-    <Navigate to="/" replace />
+    <Navigate to="/login" replace />
   );
 };
 
