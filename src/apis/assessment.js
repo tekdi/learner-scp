@@ -1,12 +1,47 @@
 import axios from 'axios';
 const CREATE_ASSESSMENT_API_URL = process.env.REACT_APP_CREATE_ASSESSMENT_API_URL;
 
+
+export const assessmentStatusCheck = async (userId) => {
+  try {
+    const response = await axios.post(
+        `${CREATE_ASSESSMENT_API_URL}/api/v1/tracking-assesment/list`,
+        {
+          "filters": {
+            "userId": userId,
+            "contentId": "do_2129493126207324161154"
+          },
+          "pagination": {
+            "pageSize": 0,
+            "page": 0
+          },
+          "sort": {
+            "field": "userId",
+            "order": "asc"
+          }
+        },
+        {
+          headers: {
+            'accept': '*/*',
+            'Content-Type': 'application/json'
+          }
+        }
+      );
+    return response.data;
+  } catch (error) {
+    throw new Error(error.response?.data?.message || ' failed');
+  }
+}; 
+
+
 export const assessmentTracking = async (scoreDetails) => {
+
+  const userId = localStorage.getItem('userId')
   try {
     const response = await axios.post(
         `${CREATE_ASSESSMENT_API_URL}/api/v1/tracking-assesment`,
         {
-          'userId': '30b2571f-08f9-49ce-b97a-c643df0c82f7',
+          'userId': userId,
           'courseId': 'testID1234',
           'batchId': '01295501508689100844',
           'contentId': 'do_2129493126207324161154',

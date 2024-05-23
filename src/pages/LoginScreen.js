@@ -12,14 +12,18 @@ import {
   Select,
   IconButton,
   InputAdornment,
+  CircularProgress,
+  Typography,
 } from "@mui/material";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import logo from "../assets/logoPratham.png";
 import { cohortSearch, loginApi, userIdApi } from "../apis/loginApi";
 import { useNavigate } from "react-router-dom";
+import Loading from "../components/common/Loading";
 
 const LoginScreen = () => {
   const [showPassword, setShowPassword] = useState(false);
+  const [loading, setLoading] = useState(false);
   const { control, handleSubmit } = useForm();
   const navigate = useNavigate();
 
@@ -28,18 +32,26 @@ const LoginScreen = () => {
   };
 
   const onSubmit = async (data) => {
+    setLoading(true);
     try {
       const result = await loginApi(data.username, data.password);
       console.log("Login successful");
       localStorage.setItem("authToken", result.access_token);
+      localStorage.setItem("refreshToken", result.refresh_token);
       const token = result.access_token;
-      const userID = await userIdApi(token)
-      const cohort = await cohortSearch(userID.result.userId)
+      const userID = await userIdApi(token);
+      await cohortSearch(userID.result.userId);
       navigate("/dashboard");
     } catch (error) {
       console.error("Login failed:", error.message);
+    } finally {
+      setLoading(false);
     }
   };
+
+  if (loading) {
+    return <Loading />;
+  }
 
   return (
     <Box

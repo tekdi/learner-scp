@@ -7,15 +7,18 @@ import { CardActionArea } from "@mui/material";
 import { Button } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 
-const CardComponent = ({ sectionContent }) => {
+const CardComponent = ({ sectionContent, responseCode }) => {
+  
   const navigate = useNavigate();
 
   const handleAssessment = () => {
-    navigate("/assessment", {
-      state: {
-        sectionContent,
-      },
-    });
+    if (responseCode !== 200) {
+      navigate("/assessment", {
+        state: {
+          sectionContent,
+        },
+      });
+    }
   };
 
   return (
@@ -25,11 +28,11 @@ const CardComponent = ({ sectionContent }) => {
           component="img"
           height="140"
           image="https://via.placeholder.com/150"
-          alt={"Image"}
+          alt="Image"
         />
         <CardContent>
           <Typography gutterBottom variant="h7" component="div">
-            Name : {sectionContent.name}
+            Name: {sectionContent.name}
           </Typography>
           <Typography variant="body2" color="text.secondary">
             Medium: {sectionContent.medium}
@@ -45,20 +48,22 @@ const CardComponent = ({ sectionContent }) => {
             sx={{
               borderRadius: "50px",
               mt: 2,
-              bgcolor: "#fdbe16", // Background color
+              bgcolor: responseCode === 200 ? "#d3d3d3" : "#fdbe16", // Grayed out background color
               "&:hover": {
-                bgcolor: "#dca10f", // Darker shade for hover state
+                bgcolor: responseCode === 200 ? "#d3d3d3" : "#dca10f", // Prevent hover effect when disabled
               },
-              color: "black", // Text color
+              color: responseCode === 200 ? "#a9a9a9" : "black", // Grayed out text color
+              pointerEvents: responseCode === 200 ? "none" : "auto" // Prevent click when disabled
             }}
             onClick={handleAssessment}
+            disabled={responseCode == 200}
           >
-            Take Assessment
+            {responseCode == 200 ? "Completed" : "Take Assessment"}
           </Button>
         </CardContent>
       </CardActionArea>
     </Card>
-    );
- };
+  );
+};
 
 export default CardComponent;

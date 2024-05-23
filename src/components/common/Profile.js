@@ -53,7 +53,7 @@ const Profile = () => {
           </Grid>
           
         </Grid>
-        <Box mt={2}>
+        {/* <Box mt={2}>
         <Typography variant="body2" color="textSecondary" component="p">
               Bio
             </Typography>
@@ -84,7 +84,7 @@ const Profile = () => {
             
           </Grid>
           
-        </Box>
+        </Box> */}
 
         <Button
             variant="contained"
