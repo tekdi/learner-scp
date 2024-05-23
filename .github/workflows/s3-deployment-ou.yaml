@@ -17,7 +17,6 @@ jobs:
         run: |
           echo "" >> .env
           echo "REACT_APP_SAAS_TOKEN=${{ secrets.REACT_APP_SAAS_TOKEN }}" >> .env
-          cat .env
       - name: npm install, build
         run: |
           npm install
