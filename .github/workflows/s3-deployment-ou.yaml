@@ -13,6 +13,10 @@ jobs:
           node-version: 20
       - name: Set CI environment variable to false
         run: echo "CI=false" >> $GITHUB_ENV
+      - name: Add env variable
+        run: |
+          echo "" >> .env
+          echo "REACT_SAAS_TOKEN=${{ secrets.REACT_SAAS_TOKEN }}" >> .env
       - name: npm install, build
         run: |
           npm install
