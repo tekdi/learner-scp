@@ -35,6 +35,7 @@ const LoginScreen = () => {
   const onSubmit = async (data) => {
     setLoading(true);
     try {
+      console.log("token", process.env.REACT_APP_SAAS_TOKEN);
       const result = await loginApi(data.username, data.password);
       console.log("Login successful");
       localStorage.setItem("authToken", result.access_token);
