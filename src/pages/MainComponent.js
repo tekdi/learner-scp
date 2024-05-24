@@ -1,31 +1,66 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   Box,
   Typography,
   Grid,
-  Paper,
   List,
   ListItem,
   ListItemText,
 } from "@mui/material";
 import SmallCard from "../components/common/SmallCard";
 import Header from "../components/common/header";
-import { sectionContent } from "../components/player/playerData";
 import { parseISO, format } from "date-fns";
+import { userIdApi, cohortSearch } from "../apis/loginApi";
+import { contentSearch, mainContentSearch } from "../apis/assessment";
 
 const MainComponent = () => {
-  const dateString = sectionContent.createdOn;
-  const parsedDate = parseISO(dateString);
-  const formattedDate = format(parsedDate, " dd MMMM, yyyy");
+  const [sectionContent, setSectionContent] = useState();
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const token = localStorage.getItem("authToken");
+        const userID = await userIdApi(token);
+        const cohort = await cohortSearch(userID.result.userId);
+        const cohortValue = cohort?.data?.cohortDetails[0]?.cohortData?.customFields[3]?.value;
+
+        if (cohortValue) {
+          const identifier = await contentSearch(cohortValue);
+          const questionSetIdentifier = identifier?.result?.QuestionSet[0]?.identifier;
+
+          if (questionSetIdentifier) {
+            localStorage.setItem("identifier", questionSetIdentifier);
+            const playerData = await mainContentSearch(questionSetIdentifier);
+            const sectionContent = playerData?.result?.questionSet;
+            setSectionContent(sectionContent);
+          }
+        }
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  const dateString = sectionContent?.createdOn;
+  const parsedDate = parseISO(dateString || "2024-05-15T13:36:32.427+0000");
+  const formattedDate = format(parsedDate, "dd MMMM, yyyy");
+  const timeLimits = JSON.parse(sectionContent?.timeLimits || "{}");
+  const maxTimeMinutes = timeLimits?.maxTime / 60;
 
   const cardsData = [
-    { date: formattedDate, subject: sectionContent.subject[0], minutes: sectionContent.timeLimits.maxTime/60 },
+    {
+      date: formattedDate,
+      subject: sectionContent?.subject[0],
+      minutes: maxTimeMinutes,
+    },
   ];
 
   const instructions = [
-    "Some instruction. Lorem ipsum dolor sit amet consectetur.",
-    "Some instruction. Lorem ipsum dolor sit amet consectetur.",
-    "Some instruction. Lorem ipsum dolor sit amet consectetur.",
+    "**Duration**: The test is timed and will last for 20 minutes. Please manage your time accordingly.",
+    "**Number of Questions**: The test comprises multiple-choice questions. Ensure you answer all questions within the given time frame.",
+    "**Submission**: You can only submit the test once. Make sure you review your answers carefully before submitting, as you will not have another opportunity to submit.",
   ];
 
   return (
@@ -55,14 +90,14 @@ const MainComponent = () => {
           Complete the tests for each of the subjects below. Feel free to do
           them in any order
         </Typography>
-        <Grid  container spacing={1} justifyContent="left" sx={{ mt: 2 }} >
+        <Grid container spacing={1} justifyContent="left" sx={{ mt: 2 }}>
           {cardsData.map((data, index) => (
             <SmallCard
               key={index}
               date={data.date}
               subject={data.subject}
               minutes={data.minutes}
-            
+              sectionContent={sectionContent}
             />
           ))}
         </Grid>

@@ -10,8 +10,9 @@ import { useNavigate } from "react-router-dom";
 import { Box } from "@mui/material";
 
 const CardComponent = ({ sectionContent, responseCode }) => {
-  console.log(sectionContent);
+  const timeLimits = JSON.parse(sectionContent?.timeLimits || "{}");
 
+  const maxTimeMinutes = timeLimits?.maxTime / 60;
   const navigate = useNavigate();
 
   const handleAssessment = () => {
@@ -24,7 +25,6 @@ const CardComponent = ({ sectionContent, responseCode }) => {
     }
   };
 
-
   return (
     <Card
       sx={{
@@ -32,7 +32,7 @@ const CardComponent = ({ sectionContent, responseCode }) => {
         m: 3,
         borderRadius: 3,
         boxShadow: "0px 1px 3px 1px #00000026, 0px 1px 2px 0px #0000004D",
-        p: 1
+        p: 1,
       }}
     >
       <CardActionArea>
@@ -46,7 +46,7 @@ const CardComponent = ({ sectionContent, responseCode }) => {
               variant="h3"
               component="span"
             >
-              {sectionContent.timeLimits.maxTime/60}
+              {maxTimeMinutes}
             </Typography>
             <Box
               display="flex"
@@ -72,13 +72,13 @@ const CardComponent = ({ sectionContent, responseCode }) => {
                 variant="h7"
                 component="span"
               >
-                {sectionContent.name}
+                {sectionContent?.name}
               </Typography>
             </Box>
           </Box>
           <Divider sx={{ mt: 2 }} />
           <Typography sx={{ mt: 2 }} variant="body2" color="text.primary">
-            Description<br></br> {sectionContent.description}
+            Description<br></br> {sectionContent?.description}
           </Typography>
           <Typography sx={{ mt: 2 }} variant="body2" color="text.secondary">
             Test Medium<br></br>
@@ -87,7 +87,7 @@ const CardComponent = ({ sectionContent, responseCode }) => {
               color="black"
               sx={{ fontWeight: "bold" }}
             >
-              {sectionContent.medium}
+              {sectionContent?.medium}
             </Typography>
           </Typography>
 
@@ -99,7 +99,7 @@ const CardComponent = ({ sectionContent, responseCode }) => {
               color="black"
               sx={{ fontWeight: "bold" }}
             >
-              {sectionContent.board}
+              {sectionContent?.board}
             </Typography>
           </Typography>
           <Button
@@ -124,7 +124,6 @@ const CardComponent = ({ sectionContent, responseCode }) => {
         </CardContent>
       </CardActionArea>
     </Card>
-
   );
 };
 

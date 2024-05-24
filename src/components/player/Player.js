@@ -2,6 +2,8 @@ import { useEffect, useRef } from "react";
 import "./Player.css";
 import { useLocation } from 'react-router-dom';
 import $ from "jquery";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import "@project-sunbird/sunbird-quml-player-web-component/styles.css";
 import "@project-sunbird/sunbird-quml-player-web-component/sunbird-quml-player";
 import { assessmentTracking } from "../../apis/assessment";
@@ -156,7 +158,9 @@ function Player() {
         scoreDetails = JSON.stringify(newFormatData);
         // console.log(scoreDetails);
         await assessmentTracking(scoreDetails);
-        alert("Assessment submitted successfully")
+        toast.success("Assessment submitted successfully", {
+          position: "top-center"
+        });
         navigate('/dashboard')
         
       } else {
@@ -175,12 +179,16 @@ function Player() {
   }, []);
 
   return (
+    <>
     <div className="App">
       <sunbird-quml-player
         player-config={JSON.stringify(playerConfig)}
         ref={sunbirdQumlPlayerRef}
       ></sunbird-quml-player>
+         
     </div>
+     <ToastContainer />
+     </>
   );
 }
 

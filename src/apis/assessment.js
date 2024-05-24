@@ -33,6 +33,69 @@ export const assessmentStatusCheck = async (userId) => {
   }
 }; 
 
+export const contentSearch = async (state) => {
+  try {
+    const response = await axios.post(
+      'https://sunbirdsaas.com/api/content/v1/search',
+      {
+        'request': {
+          'filters': {
+            'program': [
+              'Second chance'
+            ],
+            'se_boards': [
+              state
+            ],
+            'primaryCategory': [
+              'Practice Question Set'
+            ],
+            'visibility': [
+              'Default',
+              'Parent'
+            ]
+          },
+          'limit': 100,
+          'sort_by': {
+            'lastPublishedOn': 'desc'
+          },
+          'facets': [
+            'se_boards',
+            'se_gradeLevels',
+            'se_subjects',
+            'se_mediums',
+            'primaryCategory'
+          ],
+          'offset': 0
+        }
+      },
+      {
+        params: {
+          'orgdetails': 'orgName,email',
+          'licenseDetails': 'name,description,url'
+        },
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJxMHZUZEpjb2VQdENLd1RsZ3JjWjFXUkQzTVExYjJBayJ9.aKceCt8EmzsEO38JujKmWsnTYtgDMpamPHculOPFhXo'
+        }
+      }
+    );
+    return response.data;
+  } catch (error) {
+    throw new Error(error.response?.data?.message || 'Search failed');
+  }
+};
+
+export const mainContentSearch = async (identifier) => {
+  try {
+    const response = await axios.get(
+      `https://sunbirdsaas.com/learner/questionset/v1/hierarchy/${identifier}`,
+    );
+    return response.data;
+  } catch (error) {
+    throw new Error(error.response?.data?.message || 'Search failed');
+  }
+};
 
 export const assessmentTracking = async (scoreDetails) => {
 

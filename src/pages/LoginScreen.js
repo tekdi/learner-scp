@@ -17,9 +17,10 @@ import {
 } from "@mui/material";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import logo from "../assets/logoPratham.png";
-import { cohortSearch, loginApi, userIdApi } from "../apis/loginApi";
+import { loginApi  } from "../apis/loginApi";
 import { useNavigate } from "react-router-dom";
 import Loading from "../components/common/Loading";
+
 
 const LoginScreen = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -38,9 +39,7 @@ const LoginScreen = () => {
       console.log("Login successful");
       localStorage.setItem("authToken", result.access_token);
       localStorage.setItem("refreshToken", result.refresh_token);
-      const token = result.access_token;
-      const userID = await userIdApi(token);
-      await cohortSearch(userID.result.userId);
+      
       navigate("/");
     } catch (error) {
       console.error("Login failed:", error.message);
