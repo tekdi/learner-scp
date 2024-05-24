@@ -76,7 +76,7 @@ export const contentSearch = async (state) => {
         headers: {
           'Accept': 'application/json',
           'Content-Type': 'application/json',
-          'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJxMHZUZEpjb2VQdENLd1RsZ3JjWjFXUkQzTVExYjJBayJ9.aKceCt8EmzsEO38JujKmWsnTYtgDMpamPHculOPFhXo'
+          'Authorization': `Bearer ${process.env.REACT_APP_SAAS_TOKEN}`
         }
       }
     );
