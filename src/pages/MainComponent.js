@@ -22,11 +22,13 @@ const MainComponent = () => {
         const token = localStorage.getItem("authToken");
         const userID = await userIdApi(token);
         const cohort = await cohortSearch(userID.result.userId);
-        const cohortValue = cohort?.data?.cohortDetails[0]?.cohortData?.customFields[3]?.value;
+        const cohortValue =
+          cohort?.data?.cohortDetails[0]?.cohortData?.customFields[3]?.value;
 
         if (cohortValue) {
           const identifier = await contentSearch(cohortValue);
-          const questionSetIdentifier = identifier?.result?.QuestionSet[0]?.identifier;
+          const questionSetIdentifier =
+            identifier?.result?.QuestionSet[0]?.identifier;
 
           if (questionSetIdentifier) {
             localStorage.setItem("identifier", questionSetIdentifier);
@@ -58,9 +60,11 @@ const MainComponent = () => {
   ];
 
   const instructions = [
-    "**Duration**: The test is timed and will last for 20 minutes. Please manage your time accordingly.",
-    "**Number of Questions**: The test comprises multiple-choice questions. Ensure you answer all questions within the given time frame.",
-    "**Submission**: You can only submit the test once. Make sure you review your answers carefully before submitting, as you will not have another opportunity to submit.",
+    "Duration: The test is timed and will last for 20 minutes. Please manage your time accordingly.",
+    "Number of Questions: The test comprises multiple-choice questions. Ensure you answer all questions within the given time frame.",
+    "Submission: You can only submit the test once. Make sure you review your answers carefully before submitting, as you will not have another opportunity to submit.",
+    "Starting the Test: Ensure you are in a quiet environment with no interruptions.Make sure your internet connection is stable.",
+    " Navigating the Test: Read each question carefully before selecting your answer. You may skip questions and return to them later if needed, but keep an eye on the timer. Use the Next and Previous buttons to navigate between questions.",
   ];
 
   return (
@@ -70,6 +74,10 @@ const MainComponent = () => {
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
+        mt: 6,
+        width: "100%",
+        flex: 1,
+        overflowY: "auto",
       }}
     >
       <Header />

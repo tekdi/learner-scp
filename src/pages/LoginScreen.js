@@ -17,12 +17,13 @@ import {
 } from "@mui/material";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import logo from "../assets/logoPratham.png";
-import { loginApi  } from "../apis/loginApi";
+import { loginApi } from "../apis/loginApi";
 import { useNavigate } from "react-router-dom";
 import Loading from "../components/common/Loading";
-
+import { useTranslation } from 'react-i18next';
 
 const LoginScreen = () => {
+  const { t, i18n } = useTranslation();
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const { control, handleSubmit } = useForm();
@@ -49,6 +50,10 @@ const LoginScreen = () => {
     }
   };
 
+  const handleLanguageChange = (event) => {
+    i18n.changeLanguage(event.target.value);
+  };
+
   if (loading) {
     return <Loading />;
   }
@@ -61,7 +66,6 @@ const LoginScreen = () => {
         alignItems: "center",
         justifyContent: "center",
         minHeight: "100vh",
-        backgroundColor: "#f0f0f5",
         padding: 2,
       }}
     >
@@ -93,31 +97,35 @@ const LoginScreen = () => {
             <Controller
               name="language"
               control={control}
-              defaultValue="English"
+              defaultValue="en"
               render={({ field }) => (
                 <Select
                   {...field}
                   displayEmpty
                   inputProps={{ "aria-label": "Without label" }}
+                  onChange={(e) => {
+                    field.onChange(e);
+                    handleLanguageChange(e);
+                  }}
                 >
-                  <MenuItem value="English">English</MenuItem>
-                  {/* Add more language options here if needed */}
+                  <MenuItem value="en">English</MenuItem>
+                  <MenuItem value="hi">Hindi</MenuItem>
                 </Select>
               )}
             />
           </Box>
           <FormControl fullWidth margin="normal" variant="outlined">
-            <InputLabel htmlFor="username">Username</InputLabel>
+            <InputLabel htmlFor="username">{t('username')}</InputLabel>
             <Controller
               name="username"
               control={control}
               render={({ field }) => (
-                <OutlinedInput {...field} id="username" label="Username" />
+                <OutlinedInput {...field} id="username" label={t('username')} />
               )}
             />
           </FormControl>
           <FormControl fullWidth margin="normal" variant="outlined">
-            <InputLabel htmlFor="password">Password</InputLabel>
+            <InputLabel htmlFor="password">{t('password')}</InputLabel>
             <Controller
               name="password"
               control={control}
@@ -126,7 +134,7 @@ const LoginScreen = () => {
                   {...field}
                   id="password"
                   type={showPassword ? "text" : "password"}
-                  label="Password"
+                  label={t('password')}
                   endAdornment={
                     <InputAdornment position="end">
                       <IconButton
@@ -150,7 +158,7 @@ const LoginScreen = () => {
               mt: 1,
             }}
           >
-            <Button variant="text">Forgot Password?</Button>
+            <Button variant="text">{t('forgotPassword')}</Button>
           </Box>
           <FormControlLabel
             sx={{
@@ -160,7 +168,7 @@ const LoginScreen = () => {
               mt: 1,
             }}
             control={<Checkbox defaultChecked />}
-            label="Remember Me"
+            label={t('rememberMe')}
           />
           <Button
             type="submit"
@@ -175,7 +183,7 @@ const LoginScreen = () => {
               color: "black", // Text color
             }}
           >
-            Login
+            {t('login')}
           </Button>
         </form>
       </Box>

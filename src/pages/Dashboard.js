@@ -20,9 +20,12 @@ function Dashboard() {
   const [sectionContent, setSectionContent] = useState(null);
 
   const instructions = [
-    "**Navigating the Test**: - Read each question carefully before selecting your answer. - You may skip questions and return to them later if needed, but keep an eye on the timer. - Use the Next and Previous buttons to navigate between questions.",
-    "**Answering Questions**: - Each question has multiple choices. Select the option that best answers the question. - Double-check your selected answer before moving to the next question. - There is no negative marking, so it is better to attempt all questions even if you are unsure of the answer.",
-  
+"Final Submission: Once you have completed all the questions, review your answers. Click the Submit button to submit your test. Remember, once submitted, you cannot make any changes or resubmit the test.",
+ "Technical Issues: If you encounter any technical issues, contact the test administrator immediately." ,
+ "Academic Integrity: This test is to be completed individually. Do not seek help from others or use unauthorized materials. Adhere to the test rules and maintain academic honesty." ,
+"Test Environment:  Ensure you have all necessary materials (e.g., paper, pen) before starting the test.  Make sure your device is fully charged or plugged in.",
+
+"Ending the Test:  If you finish early, use the remaining time to review your answers.  Submit your test before the time expires. If you do not submit in time, your test may be automatically submitted with your current progress.", 
   ];
 
   useEffect(() => {
@@ -61,11 +64,19 @@ function Dashboard() {
   }, []);
 
   return (
-    <Box>
+    <Box sx={{
+      height: "100vh",
+    
+      mt: 5,
+      width: "100%",
+      flex: 1,
+      overflowY: "auto",
+    }}>
       <Header />
       <Box
         sx={{
           m: 2,
+          mt: 6
         }}
       ></Box>
       <Box

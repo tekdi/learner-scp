@@ -5,8 +5,8 @@ import Dashboard from "./pages/Dashboard";
 import NewPlayer from "./pages/NewPlayer";
 import Profile from "./components/common/Profile";
 import ProtectedRoute from "./components/ProtectedRoute";
-import './styles/global.css'
 import MainComponent from "./pages/MainComponent";
+
 
 function App() {
   return (

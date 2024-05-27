@@ -35,7 +35,7 @@ const Header = () => {
       };
 
   return (
-    <AppBar position="static" sx={{ backgroundColor: 'white', boxShadow: 1, borderBottom: '1px solid #e0e0e0' }}>
+    <AppBar position="fixed" sx={{ backgroundColor: 'white', boxShadow: 1, borderBottom: '1px solid #e0e0e0' }}>
       <Toolbar sx={{ justifyContent: 'space-between' }}>
         <Box sx={{ display: 'flex', alignItems: 'center' }}>
           {/* <Select
