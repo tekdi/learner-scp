@@ -21,7 +21,7 @@ const MainComponent = () => {
       try {
         const token = localStorage.getItem("authToken");
         const userID = await userIdApi(token);
-        const cohort = await cohortSearch(userID.result.userId);
+        const cohort = await cohortSearch(userID.result.userId, token);
         const cohortValue =
           cohort?.data?.cohortDetails[0]?.cohortData?.customFields[3]?.value;
 
@@ -51,20 +51,20 @@ const MainComponent = () => {
   const timeLimits = JSON.parse(sectionContent?.timeLimits || "{}");
   const maxTimeMinutes = timeLimits?.maxTime / 60;
 
-  const cardsData = [
+  const cardsData = sectionContent ? [
     {
       date: formattedDate,
       subject: sectionContent?.subject[0],
       minutes: maxTimeMinutes,
     },
-  ];
+  ] : [];
 
   const instructions = [
     "Duration: The test is timed and will last for 20 minutes. Please manage your time accordingly.",
     "Number of Questions: The test comprises multiple-choice questions. Ensure you answer all questions within the given time frame.",
     "Submission: You can only submit the test once. Make sure you review your answers carefully before submitting, as you will not have another opportunity to submit.",
-    "Starting the Test: Ensure you are in a quiet environment with no interruptions.Make sure your internet connection is stable.",
-    " Navigating the Test: Read each question carefully before selecting your answer. You may skip questions and return to them later if needed, but keep an eye on the timer. Use the Next and Previous buttons to navigate between questions.",
+    "Starting the Test: Ensure you are in a quiet environment with no interruptions. Make sure your internet connection is stable.",
+    "Navigating the Test: Read each question carefully before selecting your answer. You may skip questions and return to them later if needed, but keep an eye on the timer. Use the Next and Previous buttons to navigate between questions.",
   ];
 
   return (
@@ -98,17 +98,33 @@ const MainComponent = () => {
           Complete the tests for each of the subjects below. Feel free to do
           them in any order
         </Typography>
-        <Grid container spacing={1} justifyContent="left" sx={{ mt: 2 }}>
-          {cardsData.map((data, index) => (
-            <SmallCard
-              key={index}
-              date={data.date}
-              subject={data.subject}
-              minutes={data.minutes}
-              sectionContent={sectionContent}
-            />
-          ))}
-        </Grid>
+        {cardsData.length > 0 ? (
+          <Grid container spacing={1} justifyContent="left" sx={{ mt: 2 }}>
+            {cardsData.map((data, index) => (
+              <SmallCard
+                key={index}
+                date={data.date}
+                subject={data.subject}
+                minutes={data.minutes}
+                sectionContent={sectionContent}
+              />
+            ))}
+          </Grid>
+        ) : (
+          <Box
+            sx={{
+              mt: 3,
+              p: 2,
+              backgroundColor: "#ffdea1",
+              borderRadius: 1,
+              textAlign: "center",
+            }}
+          >
+            <Typography variant="body2" color="textPrimary">
+              No assessment available
+            </Typography>
+          </Box>
+        )}
         <Box
           sx={{
             mt: 3,

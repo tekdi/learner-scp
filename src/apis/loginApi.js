@@ -55,7 +55,7 @@ export const userIdApi = async (token) => {
   }
 };
 
-export const cohortSearch = async (userID) => {
+export const cohortSearch = async (userID, token) => {
   try {
     const response = await axios.post(
       `${BASE_API_URL}/api/v1/cohorts/search`,
@@ -69,7 +69,7 @@ export const cohortSearch = async (userID) => {
       {
         headers: {
           'Accept-Language': 'en-US,en;q=0.9,mr-IN;q=0.8,mr;q=0.7',
-          'Authorization': 'Bearer eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJPc3NtSUhXaW1NMDN2MUxsVnFvNHBqaS0ydEMwTGhLY0o5dmtwQTlJZV9zIn0.eyJleHAiOjE3MTYyNzcxNTEsImlhdCI6MTcxNjI3NjI1MSwianRpIjoiYzgzZjcwNmQtMzI2Yi00ZTQwLWJlZTYtZDJiMjIwY2I3MDU1IiwiaXNzIjoiaHR0cHM6Ly9xYS5wcmF0aGFtdGVhY2hlcmFwcC50ZWtkaW5leHQuY29tL2F1dGgvcmVhbG1zL3ByYXRoYW0iLCJhdWQiOiJhY2NvdW50Iiwic3ViIjoiNGNkNDg4NTEtNGJlYi00YmRlLWIxMmQtMTQ4MzYxZWQ2MDdjIiwidHlwIjoiQmVhcmVyIiwiYXpwIjoicHJhdGhhbSIsInNlc3Npb25fc3RhdGUiOiIwMGRjYjZmYi05NjU1LTRlNzMtODU4Zi04NTlkMDgzYTdjZmQiLCJhY3IiOiIxIiwiYWxsb3dlZC1vcmlnaW5zIjpbIi8qIl0sInJlYWxtX2FjY2VzcyI6eyJyb2xlcyI6WyJvZmZsaW5lX2FjY2VzcyIsInVtYV9hdXRob3JpemF0aW9uIiwiZGVmYXVsdC1yb2xlcy1wcmF0aGFtIl19LCJyZXNvdXJjZV9hY2Nlc3MiOnsiYWNjb3VudCI6eyJyb2xlcyI6WyJtYW5hZ2UtYWNjb3VudCIsIm1hbmFnZS1hY2NvdW50LWxpbmtzIiwidmlldy1wcm9maWxlIl19fSwic2NvcGUiOiJlbWFpbCBwcm9maWxlIiwic2lkIjoiMDBkY2I2ZmItOTY1NS00ZTczLTg1OGYtODU5ZDA4M2E3Y2ZkIiwiZW1haWxfdmVyaWZpZWQiOmZhbHNlLCJuYW1lIjoiQW51cCBCZWoiLCJwcmVmZXJyZWRfdXNlcm5hbWUiOiJhbnVwX2t1bWFyX2JlaiIsImdpdmVuX25hbWUiOiJBbnVwIiwiZmFtaWx5X25hbWUiOiJCZWoifQ.Rx-4Q4-l-SJKJ6-eSyhfJQkZKnH_67XMZ3SvHYZRlwLXjhE5_7JnQU9f0ECZmJn-oYNw8FNIFVNnt7xfWqP6fJURsA5seH2x31u-Gbs5SkPYQ2ETxzJs1s1t1OZ6wnPwCJa2_QD2e2vL3srBQU6c89AhidYahWxBhYzA8BgzUKFMp5JY6zV1f_n_nFYg8LYOCvP0WVJ8fFkj_cN6wL0EjQZM2xYwsUIkC2E0i3Aia5JwoeEUUZKcRbtZXbVq9f-Tg2Q4lL2SPP7j-ZBxeY5ZaJALTFwYLyyjlZ7nSDdKiCta3OqdOqeOPIWknyZxLhZGGe6-Xcmyet18E4-cFIv0eg',
+          'Authorization': `Bearer ${token}`,
           'Connection': 'keep-alive',
           'DNT': '1',
           'Origin': 'https://qa.prathamteacherapp.tekdinext.com',
