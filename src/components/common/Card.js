@@ -8,9 +8,11 @@ import { CardActionArea } from "@mui/material";
 import { Button } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { Box } from "@mui/material";
+import { useTranslation } from "react-i18next";
 
 const CardComponent = ({ sectionContent, responseCode }) => {
   const timeLimits = JSON.parse(sectionContent?.timeLimits || "{}");
+  const {t}  = useTranslation();
 
   const maxTimeMinutes = timeLimits?.maxTime / 60;
   const navigate = useNavigate();
@@ -78,10 +80,10 @@ const CardComponent = ({ sectionContent, responseCode }) => {
           </Box>
           <Divider sx={{ mt: 2 }} />
           <Typography sx={{ mt: 2 }} variant="body2" color="text.primary">
-            Description<br></br> {sectionContent?.description}
+          {t('DASHBOARD.DASHBOARD_HEADING_1')}<br></br> {sectionContent?.description}
           </Typography>
           <Typography sx={{ mt: 2 }} variant="body2" color="text.secondary">
-            Test Medium<br></br>
+          {t('DASHBOARD.DASHBOARD_HEADING_2')}<br></br>
             <Typography
               variant="body3"
               color="black"
@@ -92,14 +94,25 @@ const CardComponent = ({ sectionContent, responseCode }) => {
           </Typography>
 
           <Typography sx={{ mt: 2 }} variant="body2" color="text.secondary">
-            Board
+          {t('DASHBOARD.DASHBOARD_HEADING_3')}
             <br></br>
             <Typography
               variant="body3"
               color="black"
               sx={{ fontWeight: "bold" }}
             >
-              {sectionContent?.board}
+             {sectionContent?.board}
+            </Typography>
+          </Typography>
+          <Typography sx={{ mt: 2 }} variant="body2" color="text.secondary">
+          {t('DASHBOARD.DASHBOARD_HEADING_4')}
+            <br></br>
+            <Typography
+              variant="body3"
+              color="black"
+              sx={{ fontWeight: "bold", color: "#dca10f" } }// Grayed out background color}
+            >
+             {responseCode == 200 ?  'Score' :  0}
             </Typography>
           </Typography>
           <Button
@@ -119,7 +132,7 @@ const CardComponent = ({ sectionContent, responseCode }) => {
             onClick={handleAssessment}
             disabled={responseCode == 200}
           >
-            {responseCode == 200 ? "Completed" : "Start Test"}
+            {responseCode == 200 ?  t('DASHBOARD.COMPLETED') :  t('DASHBOARD.START_TEST')}
           </Button>
         </CardContent>
       </CardActionArea>

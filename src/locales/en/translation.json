@@ -1,9 +1,38 @@
-
 {
-    "username": "Username",
-    "password": "Password",
-    "rememberMe": "Remember Me",
-    "forgotPassword": "Forgot Password?",
-    "login": "Login"
-  }
+  "LOGIN": {
+    "USERNAME": "Username",
+    "PASSWORD": "Password",
+    "REMEMBERME": "Remember Me",
+    "FORGOTPASSWORD": "Forgot Password?",
+    "LOGIN": "Login"
+  },
+
+  "MAIN": {
+    "HEADING_1": "Pre Test",
+    "HEADING_2": "Deadline: ",
+    "HEADING_3": " Complete the tests for each of the subjects below. Feel free to do them in any order",
+    "HEADING_4": "Note: Your Pre-test will be considered only if you complete all the subjects",
+    "HEADING_5": "General Instructions",
+    "NO_ASSESSMENT_AVAILABLE": "No assessment available",
+    "GENERAL_INSTRUCTIONS_1": "Duration: The test is timed and will last for 20 minutes. Please manage your time accordingly.",
+    "GENERAL_INSTRUCTIONS_2": "Number of Questions: The test comprises multiple-choice questions. Ensure you answer all questions within the given time frame.",
+    "GENERAL_INSTRUCTIONS_3": "Submission: You can only submit the test once. Make sure you review your answers carefully before submitting, as you will not have another opportunity to submit.",
+    "GENERAL_INSTRUCTIONS_4": "Starting the Test: Ensure you are in a quiet environment with no interruptions. Make sure your internet connection is stable.",
+    "GENERAL_INSTRUCTIONS_5": "Navigating the Test: Read each question carefully before selecting your answer. You may skip questions and return to them later if needed, but keep an eye on the timer. Use the Next and Previous buttons to navigate between questions."
+  },
+  "DASHBOARD": {
+    "GENERAL_INSTRUCTIONS_6": "Final Submission: Once you have completed all the questions, review your answers. Click the Submit button to submit your test. Remember, once submitted, you cannot make any changes or resubmit the test.",
+    "GENERAL_INSTRUCTIONS_7": "Technical Issues: If you encounter any technical issues, contact the test administrator immediately.",
+    "GENERAL_INSTRUCTIONS_8": "Academic Integrity: This test is to be completed individually. Do not seek help from others or use unauthorized materials. Adhere to the test rules and maintain academic honesty.",
+    "GENERAL_INSTRUCTIONS_9": "Test Environment: Ensure you have all necessary materials (e.g., paper, pen) before starting the test. Make sure your device is fully charged or plugged in.",
+    "GENERAL_INSTRUCTIONS_10": "Ending the Test: If you finish early, use the remaining time to review your answers. Submit your test before the time expires. If you do not submit in time, your test may be automatically submitted with your current progress.",
   
+    "DASHBOARD_HEADING_1": "Description",
+    "DASHBOARD_HEADING_2": "Test Medium",
+    "DASHBOARD_HEADING_3": "Board",
+    "DASHBOARD_HEADING_4": "Score",
+    "COMPLETED": "Completed",
+    "START_TEST": "Start Test",
+    "LOGOUT": "Logout"
+  }
+}

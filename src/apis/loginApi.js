@@ -1,10 +1,11 @@
 import axios from "axios";
+import instance from "./interceptor";
 const BASE_API_URL = process.env.REACT_APP_BASE_URL;
 
 export const loginApi = async (username, password) => {
   try {
-    const response = await axios.post(
-      `${BASE_API_URL}/api/v1/auth/login`,
+    const response = await instance.post(
+      `${BASE_API_URL}/user/v1/auth/login`,
       { username, password },
       {
         headers: {
@@ -22,8 +23,8 @@ export const loginApi = async (username, password) => {
 
 export const userIdApi = async (token) => {
   try {
-    const response = await axios.get(
-      `${BASE_API_URL}/api/v1/auth/user`,
+    const response = await instance.get(
+      `${BASE_API_URL}/user/v1/auth`,
       {
         headers: {
           Accept: "application/json, text/plain, */*",
@@ -57,8 +58,8 @@ export const userIdApi = async (token) => {
 
 export const cohortSearch = async (userID, token) => {
   try {
-    const response = await axios.post(
-      `${BASE_API_URL}/api/v1/cohorts/search`,
+    const response = await instance.post(
+      `${BASE_API_URL}/user/v1/cohort/search`,
       {
         'limit': 0,
         'page': 0,
@@ -90,5 +91,17 @@ export const cohortSearch = async (userID, token) => {
     throw new Error(error.response?.data?.message || "Login failed");
   }
 };
+
+export const refresh = async (params) => {
+  const apiUrl = `${BASE_API_URL}/auth/refresh`;
+  try {
+    const response = await instance.post(apiUrl, { refresh_token: params.refresh_token });
+    return response.data;
+  } catch (error) {
+    console.error('Error in refresh token', error);
+    throw error;
+  }
+};
+
 
 

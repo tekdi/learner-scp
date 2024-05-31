@@ -1,18 +1,18 @@
 import React from "react";
-import { Card, CardContent, Typography, Box, Checkbox } from "@mui/material";
+import { Card, CardContent, Typography, Box } from "@mui/material";
 import { RadioButtonUnchecked } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
 
-const SmallCard = ({ date, subject, minutes, sectionContent }) => {
+const SmallCard = ({ date, subject, minutes, identifier }) => {
   const navigate = useNavigate();
-
   const handleCardClick = () => {
     navigate("/dashboard", {
       state: {
-        sectionContent,
+        identifier, // Pass the identifier to the Dashboard
       },
     });
   };
+
   return (
     <Card
       sx={{ width: "150px", m: 1, boxShadow: 3, borderRadius: 2, p: 1 }}
@@ -35,7 +35,7 @@ const SmallCard = ({ date, subject, minutes, sectionContent }) => {
         </Box>
         <Typography
           variant="body1"
-          sx={{ fontWeight: "bold.100", color: "#dca10f" }}
+          sx={{ fontWeight: "bold", color: "#dca10f" }}
         >
           {subject}
         </Typography>

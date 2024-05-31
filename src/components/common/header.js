@@ -5,11 +5,12 @@ import { AccountCircle } from '@mui/icons-material';
 import logo from '../../assets/prathamSingle.png'; // Update the path to your logo image
 import { useNavigate } from 'react-router-dom';
 import { useLocation } from "react-router-dom";
+import { useTranslation } from 'react-i18next';
 const Header = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const [language, setLanguage] = React.useState();
-
+const {t} = useTranslation();
   const isHome =
   
   location.pathname === "/assessment";
@@ -69,7 +70,7 @@ const Header = () => {
             onClick={handleLogout}
          
           >
-             Logout
+             {t("LOGOUT")}
            </Button>
         </Box>
         )}

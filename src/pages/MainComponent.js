@@ -7,14 +7,17 @@ import {
   ListItem,
   ListItemText,
 } from "@mui/material";
-import SmallCard from "../components/common/SmallCard";
+import QuestionSetList from "../components/common/QuestionSetList";
 import Header from "../components/common/header";
-import { parseISO, format } from "date-fns";
 import { userIdApi, cohortSearch } from "../apis/loginApi";
 import { contentSearch, mainContentSearch } from "../apis/assessment";
+import { useTranslation } from "react-i18next";
+import { useNavigate } from "react-router-dom";
 
 const MainComponent = () => {
-  const [sectionContent, setSectionContent] = useState();
+  const [questionSets, setQuestionSets] = useState([]);
+  const { t } = useTranslation();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -22,20 +25,12 @@ const MainComponent = () => {
         const token = localStorage.getItem("authToken");
         const userID = await userIdApi(token);
         const cohort = await cohortSearch(userID.result.userId, token);
-        const cohortValue =
-          cohort?.data?.cohortDetails[0]?.cohortData?.customFields[3]?.value;
+        const cohortValue = "Maharashtra"; // Hardcoded for demonstration
 
         if (cohortValue) {
+          const states = cohortValue.split(",")[0].trim();
           const identifier = await contentSearch(cohortValue);
-          const questionSetIdentifier =
-            identifier?.result?.QuestionSet[0]?.identifier;
-
-          if (questionSetIdentifier) {
-            localStorage.setItem("identifier", questionSetIdentifier);
-            const playerData = await mainContentSearch(questionSetIdentifier);
-            const sectionContent = playerData?.result?.questionSet;
-            setSectionContent(sectionContent);
-          }
+          setQuestionSets(identifier?.result?.QuestionSet);
         }
       } catch (error) {
         console.error("Error fetching data:", error);
@@ -45,26 +40,17 @@ const MainComponent = () => {
     fetchData();
   }, []);
 
-  const dateString = sectionContent?.createdOn;
-  const parsedDate = parseISO(dateString || "2024-05-15T13:36:32.427+0000");
-  const formattedDate = format(parsedDate, "dd MMMM, yyyy");
-  const timeLimits = JSON.parse(sectionContent?.timeLimits || "{}");
-  const maxTimeMinutes = timeLimits?.maxTime / 60;
-
-  const cardsData = sectionContent ? [
-    {
-      date: formattedDate,
-      subject: sectionContent?.subject[0],
-      minutes: maxTimeMinutes,
-    },
-  ] : [];
+  const handleCardClick = (identifier) => {
+    localStorage.setItem("identifier", identifier);
+    navigate(`/dashboard/${identifier}`);
+  };
 
   const instructions = [
-    "Duration: The test is timed and will last for 20 minutes. Please manage your time accordingly.",
-    "Number of Questions: The test comprises multiple-choice questions. Ensure you answer all questions within the given time frame.",
-    "Submission: You can only submit the test once. Make sure you review your answers carefully before submitting, as you will not have another opportunity to submit.",
-    "Starting the Test: Ensure you are in a quiet environment with no interruptions. Make sure your internet connection is stable.",
-    "Navigating the Test: Read each question carefully before selecting your answer. You may skip questions and return to them later if needed, but keep an eye on the timer. Use the Next and Previous buttons to navigate between questions.",
+    t("MAIN.GENERAL_INSTRUCTIONS_1"),
+    t("MAIN.GENERAL_INSTRUCTIONS_2"),
+    t("MAIN.GENERAL_INSTRUCTIONS_3"),
+    t("MAIN.GENERAL_INSTRUCTIONS_4"),
+    t("MAIN.GENERAL_INSTRUCTIONS_5"),
   ];
 
   return (
@@ -88,28 +74,18 @@ const MainComponent = () => {
           width: "100%",
         }}
       >
-        <Typography variant="h6">Pre Test</Typography>
+        <Typography variant="h6">{t("MAIN.HEADING_1")}</Typography>
         <Typography variant="body2" color="textSecondary">
-          Deadline: 28 May, 2024
+          {t("MAIN.HEADING_2")}
         </Typography>
       </Box>
       <Box sx={{ p: 3 }}>
-        <Typography variant="body1">
-          Complete the tests for each of the subjects below. Feel free to do
-          them in any order
-        </Typography>
-        {cardsData.length > 0 ? (
-          <Grid container spacing={1} justifyContent="left" sx={{ mt: 2 }}>
-            {cardsData.map((data, index) => (
-              <SmallCard
-                key={index}
-                date={data.date}
-                subject={data.subject}
-                minutes={data.minutes}
-                sectionContent={sectionContent}
-              />
-            ))}
-          </Grid>
+        <Typography variant="body1">{t("MAIN.HEADING_3")}</Typography>
+        {questionSets.length > 0 ? (
+          <QuestionSetList
+            questionSets={questionSets}
+            onCardClick={handleCardClick}
+          />
         ) : (
           <Box
             sx={{
@@ -121,7 +97,7 @@ const MainComponent = () => {
             }}
           >
             <Typography variant="body2" color="textPrimary">
-              No assessment available
+              {t("MAIN.NO_ASSESSMENT_AVAILABLE")}
             </Typography>
           </Box>
         )}
@@ -135,12 +111,11 @@ const MainComponent = () => {
           }}
         >
           <Typography variant="body2" color="textPrimary">
-            Note: Your Pre-test will be considered only if you complete all the
-            subjects
+            {t("MAIN.HEADING_4")}
           </Typography>
         </Box>
         <Box sx={{ mt: 3 }}>
-          <Typography variant="h6">General Instructions</Typography>
+          <Typography variant="h6">{t("MAIN.HEADING_5")}</Typography>
           <List>
             {instructions.map((instruction, index) => (
               <ListItem key={index} sx={{ display: "list-item" }}>

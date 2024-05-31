@@ -5,14 +5,17 @@ import './i18n';
 import reportWebVitals from './reportWebVitals';
 import { ThemeProvider, CssBaseline } from '@mui/material';
 import theme from './styles/theme'; // Import the theme
+import { LanguageProvider } from './LanguageContext';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
+      <LanguageProvider>
     <ThemeProvider theme={theme}>
       <CssBaseline /> 
     <App />
     </ThemeProvider>
+    </LanguageProvider>
   </React.StrictMode>
 );
 

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useForm, Controller } from "react-hook-form";
 import {
   Box,
@@ -12,22 +12,27 @@ import {
   Select,
   IconButton,
   InputAdornment,
-  CircularProgress,
-  Typography,
 } from "@mui/material";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
-import logo from "../assets/logoPratham.png";
+import logo from "../assets/whiteLogo.png";
 import { loginApi } from "../apis/loginApi";
 import { useNavigate } from "react-router-dom";
 import Loading from "../components/common/Loading";
 import { useTranslation } from 'react-i18next';
+import { useLanguage } from "../LanguageContext";
 
 const LoginScreen = () => {
   const { t, i18n } = useTranslation();
+  const { language, changeLanguage } = useLanguage();
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
-  const { control, handleSubmit } = useForm();
+  const { control, handleSubmit, setValue } = useForm();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    // Set the language select field to the current language from the context
+    setValue("language", language);
+  }, [language, setValue]);
 
   const handleClickShowPassword = () => {
     setShowPassword((prev) => !prev);
@@ -39,19 +44,14 @@ const LoginScreen = () => {
       console.log("token", process.env.REACT_APP_SAAS_TOKEN);
       const result = await loginApi(data.username, data.password);
       console.log("Login successful");
-      localStorage.setItem("authToken", result.access_token);
-      localStorage.setItem("refreshToken", result.refresh_token);
-      
+      localStorage.setItem("authToken", result?.result?.access_token);
+      localStorage.setItem("refreshToken", result?.result?.refresh_token);
       navigate("/");
     } catch (error) {
       console.error("Login failed:", error.message);
     } finally {
       setLoading(false);
     }
-  };
-
-  const handleLanguageChange = (event) => {
-    i18n.changeLanguage(event.target.value);
   };
 
   if (loading) {
@@ -61,27 +61,23 @@ const LoginScreen = () => {
   return (
     <Box
       sx={{
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        justifyContent: "center",
-        minHeight: "100vh",
-        padding: 2,
+        backgroundColor: '#4a4640',
+        height: '100vh',
+        display: 'flex',
+        flexDirection:'column',
+        alignItems:'center',
       }}
     >
-      <img src={logo} alt="Pratham Logo" width={350} />
+      <img src={logo} alt="Pratham Logo" width={350} style={{marginTop: "10vh"}} />
       <Box
         sx={{
-          mt: 2,
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
+          mt: 10,
           backgroundColor: "white",
           padding: 3,
-          borderRadius: 2,
-          boxShadow: 3,
+          borderTopLeftRadius: 20,
+          borderTopRightRadius: 20,
+          height: '100vh',
           width: "100%",
-          maxWidth: 400,
         }}
       >
         <form onSubmit={handleSubmit(onSubmit)}>
@@ -97,7 +93,7 @@ const LoginScreen = () => {
             <Controller
               name="language"
               control={control}
-              defaultValue="en"
+              defaultValue={language}
               render={({ field }) => (
                 <Select
                   {...field}
@@ -105,27 +101,29 @@ const LoginScreen = () => {
                   inputProps={{ "aria-label": "Without label" }}
                   onChange={(e) => {
                     field.onChange(e);
-                    handleLanguageChange(e);
+                    changeLanguage(e.target.value);
+                    i18n.changeLanguage(e.target.value); // Also change i18n language
                   }}
+                  value={field.value} // Ensure value is correctly set
                 >
                   <MenuItem value="en">English</MenuItem>
-                  <MenuItem value="hi">Hindi</MenuItem>
+                  <MenuItem value="hi">हिंदी</MenuItem>
                 </Select>
               )}
             />
           </Box>
           <FormControl fullWidth margin="normal" variant="outlined">
-            <InputLabel htmlFor="username">{t('username')}</InputLabel>
+            <InputLabel htmlFor="username">{t('LOGIN.USERNAME')}</InputLabel>
             <Controller
               name="username"
               control={control}
               render={({ field }) => (
-                <OutlinedInput {...field} id="username" label={t('username')} />
+                <OutlinedInput {...field} id="username" label={t('LOGIN.USERNAME')} />
               )}
             />
           </FormControl>
           <FormControl fullWidth margin="normal" variant="outlined">
-            <InputLabel htmlFor="password">{t('password')}</InputLabel>
+            <InputLabel htmlFor="password">{t('LOGIN.PASSWORD')}</InputLabel>
             <Controller
               name="password"
               control={control}
@@ -134,7 +132,7 @@ const LoginScreen = () => {
                   {...field}
                   id="password"
                   type={showPassword ? "text" : "password"}
-                  label={t('password')}
+                  label={t('LOGIN.PASSWORD')}
                   endAdornment={
                     <InputAdornment position="end">
                       <IconButton
@@ -158,7 +156,7 @@ const LoginScreen = () => {
               mt: 1,
             }}
           >
-            <Button variant="text">{t('forgotPassword')}</Button>
+            <Button variant="text">{t('LOGIN.FORGOTPASSWORD')}</Button>
           </Box>
           <FormControlLabel
             sx={{
@@ -168,7 +166,7 @@ const LoginScreen = () => {
               mt: 1,
             }}
             control={<Checkbox defaultChecked />}
-            label={t('rememberMe')}
+            label={t('LOGIN.REMEMBERME')}
           />
           <Button
             type="submit"
@@ -183,7 +181,7 @@ const LoginScreen = () => {
               color: "black", // Text color
             }}
           >
-            {t('login')}
+            {t('LOGIN.LOGIN')}
           </Button>
         </form>
       </Box>

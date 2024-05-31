@@ -10,22 +10,25 @@ import {
 } from "@mui/material";
 import CardComponent from "../components/common/Card";
 import { mainContentSearch } from "../apis/assessment";
-
+import { useTranslation } from "react-i18next";
 import { assessmentStatusCheck } from "../apis/assessment";
 import Loading from "../components/common/Loading";
+import { useLocation } from "react-router-dom";
 
 function Dashboard() {
   const [loading, setLoading] = useState(true);
   const [responseCode, setResponseCode] = useState(null);
   const [sectionContent, setSectionContent] = useState(null);
+  const { t } = useTranslation();
+  const location = useLocation();
+  const identifier = location.state?.identifier; // Retrieve the identifier from the location state
 
   const instructions = [
-"Final Submission: Once you have completed all the questions, review your answers. Click the Submit button to submit your test. Remember, once submitted, you cannot make any changes or resubmit the test.",
- "Technical Issues: If you encounter any technical issues, contact the test administrator immediately." ,
- "Academic Integrity: This test is to be completed individually. Do not seek help from others or use unauthorized materials. Adhere to the test rules and maintain academic honesty." ,
-"Test Environment:  Ensure you have all necessary materials (e.g., paper, pen) before starting the test.  Make sure your device is fully charged or plugged in.",
-
-"Ending the Test:  If you finish early, use the remaining time to review your answers.  Submit your test before the time expires. If you do not submit in time, your test may be automatically submitted with your current progress.", 
+    t("DASHBOARD.GENERAL_INSTRUCTIONS_6"),
+    t("DASHBOARD.GENERAL_INSTRUCTIONS_7"),
+    t("DASHBOARD.GENERAL_INSTRUCTIONS_8"),
+    t("DASHBOARD.GENERAL_INSTRUCTIONS_9"),
+    t("DASHBOARD.GENERAL_INSTRUCTIONS_10"),
   ];
 
   useEffect(() => {
@@ -45,11 +48,8 @@ function Dashboard() {
 
     const fetchSectionData = async () => {
       try {
-       
-        const identifier = localStorage.getItem("identifier");
         if (identifier) {
           const playerData = await mainContentSearch(identifier);
-
           setSectionContent(playerData?.result?.questionSet);
         }
       } catch (error) {
@@ -61,29 +61,29 @@ function Dashboard() {
 
     fetchAssessmentStatus();
     fetchSectionData();
-  }, []);
+  }, [identifier]);
 
   return (
-    <Box sx={{
-      height: "100vh",
-    
-      mt: 5,
-      width: "100%",
-      flex: 1,
-      overflowY: "auto",
-    }}>
+    <Box
+      sx={{
+        height: "100vh",
+        mt: 5,
+        width: "100%",
+        flex: 1,
+        overflowY: "auto",
+      }}
+    >
       <Header />
       <Box
         sx={{
           m: 2,
-          mt: 6
+          mt: 6,
         }}
       ></Box>
       <Box
         sx={{
           display: "flex",
           flexDirection: "column",
-
           alignItems: "center",
         }}
       >
@@ -107,12 +107,12 @@ function Dashboard() {
       </Box>
       <Box
         sx={{
-          padding: 3, // Padding inside the box
-          borderRadius: 1, // Rounded corners
+          padding: 3,
+          borderRadius: 1,
         }}
       >
         <Typography variant="h6" component="div" gutterBottom>
-          General Instructions
+          {t("MAIN.HEADING_5")}
         </Typography>
         <List>
           {instructions.map((instruction, index) => (
