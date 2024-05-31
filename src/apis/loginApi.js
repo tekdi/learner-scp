@@ -27,23 +27,10 @@ export const userIdApi = async (token) => {
       `${BASE_API_URL}/user/v1/auth`,
       {
         headers: {
-          Accept: "application/json, text/plain, */*",
+         
           "Accept-Language": "en-US,en;q=0.9,mr-IN;q=0.8,mr;q=0.7",
           Authorization: `Bearer ${token}`,
-          Connection: "keep-alive",
-          DNT: "1",
-          "If-None-Match": 'W/"206-IAG4VgRaPg8QmhxYz2UjooZ/ZYI"',
-          Referer: "https://qa.prathamteacherapp.tekdinext.com/login",
-          "Sec-Fetch-Dest": "empty",
-          "Sec-Fetch-Mode": "cors",
-          "Sec-Fetch-Site": "same-origin",
-          "User-Agent":
-            "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36",
-          "sec-ch-ua":
-            '"Not A(Brand";v="99", "Google Chrome";v="121", "Chromium";v="121"',
-          "sec-ch-ua-mobile": "?0",
-          "sec-ch-ua-platform": '"Linux"',
-          tenantid: "ef99949b-7f3a-4a5f-806a-e67e683e38f3",
+         
         },
       }
     );
@@ -69,20 +56,9 @@ export const cohortSearch = async (userID, token) => {
       },
       {
         headers: {
-          'Accept-Language': 'en-US,en;q=0.9,mr-IN;q=0.8,mr;q=0.7',
+         
           'Authorization': `Bearer ${token}`,
-          'Connection': 'keep-alive',
-          'DNT': '1',
-          'Origin': 'https://qa.prathamteacherapp.tekdinext.com',
-          'Referer': 'https://qa.prathamteacherapp.tekdinext.com/dashboard',
-          'Sec-Fetch-Dest': 'empty',
-          'Sec-Fetch-Mode': 'cors',
-          'Sec-Fetch-Site': 'same-origin',
-          'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36',
-          'sec-ch-ua': '"Not A(Brand";v="99", "Google Chrome";v="121", "Chromium";v="121"',
-          'sec-ch-ua-mobile': '?0',
-          'sec-ch-ua-platform': '"Linux"',
-          'tenantid': 'ef99949b-7f3a-4a5f-806a-e67e683e38f3'
+         
         }
       }
     );
