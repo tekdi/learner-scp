@@ -30,8 +30,6 @@ export const userIdApi = async (token) => {
           Accept: "application/json, text/plain, */*",
           "Accept-Language": "en-US,en;q=0.9,mr-IN;q=0.8,mr;q=0.7",
           Authorization: `Bearer ${token}`,
-        
-          tenantid: "ef99949b-7f3a-4a5f-806a-e67e683e38f3",
         },
       }
     );
@@ -60,7 +58,6 @@ export const cohortSearch = async (userID, token) => {
           
           'Authorization': `Bearer ${token}`,
          
-          'tenantid': 'ef99949b-7f3a-4a5f-806a-e67e683e38f3'
         }
       }
     );

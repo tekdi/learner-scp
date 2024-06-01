@@ -10,7 +10,7 @@ import { useNavigate } from "react-router-dom";
 import { Box } from "@mui/material";
 import { useTranslation } from "react-i18next";
 
-const CardComponent = ({ sectionContent, responseCode }) => {
+const CardComponent = ({ sectionContent, responseCode , score}) => {
   const timeLimits = JSON.parse(sectionContent?.timeLimits || "{}");
   const {t}  = useTranslation();
 
@@ -112,7 +112,7 @@ const CardComponent = ({ sectionContent, responseCode }) => {
               color="black"
               sx={{ fontWeight: "bold", color: "#dca10f" } }// Grayed out background color}
             >
-             {responseCode == 200 ?  'Score' :  0}
+             {responseCode == 200 ?  score :  0}
             </Typography>
           </Typography>
           <Button

@@ -19,9 +19,12 @@ function Dashboard() {
   const [loading, setLoading] = useState(true);
   const [responseCode, setResponseCode] = useState(null);
   const [sectionContent, setSectionContent] = useState(null);
+  const [score, setScore] = useState();
   const { t } = useTranslation();
   const location = useLocation();
   const identifier = location.state?.identifier; // Retrieve the identifier from the location state
+ 
+
 
   const instructions = [
     t("DASHBOARD.GENERAL_INSTRUCTIONS_6"),
@@ -36,8 +39,9 @@ function Dashboard() {
       try {
         const userId = localStorage.getItem("userId");
         if (userId) {
-          const statusCheck = await assessmentStatusCheck(userId);
+          const statusCheck = await assessmentStatusCheck(userId , identifier);
           setResponseCode(statusCheck?.responseCode);
+          setScore(statusCheck?.result[0]?.totalScore)
         }
       } catch (error) {
         console.error("Error fetching assessment status:", error);
@@ -102,6 +106,7 @@ function Dashboard() {
           <CardComponent
             sectionContent={sectionContent}
             responseCode={responseCode}
+            score={score}
           />
         )}
       </Box>

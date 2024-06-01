@@ -18,7 +18,7 @@ import logo from "../assets/whiteLogo.png";
 import { loginApi } from "../apis/loginApi";
 import { useNavigate } from "react-router-dom";
 import Loading from "../components/common/Loading";
-import { useTranslation } from 'react-i18next';
+import { useTranslation } from "react-i18next";
 import { useLanguage } from "../LanguageContext";
 
 const LoginScreen = () => {
@@ -26,7 +26,13 @@ const LoginScreen = () => {
   const { language, changeLanguage } = useLanguage();
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
-  const { control, handleSubmit, setValue } = useForm();
+  const { control, handleSubmit, setValue } = useForm({
+    defaultValues: {
+      language: language,
+      username: "",
+      password: "",
+    },
+  });
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -61,14 +67,19 @@ const LoginScreen = () => {
   return (
     <Box
       sx={{
-        backgroundColor: '#4a4640',
-        height: '100vh',
-        display: 'flex',
-        flexDirection:'column',
-        alignItems:'center',
+        backgroundColor: "#4a4640",
+        height: "100vh",
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
       }}
     >
-      <img src={logo} alt="Pratham Logo" width={350} style={{marginTop: "10vh"}} />
+      <img
+        src={logo}
+        alt="Pratham Logo"
+        width={350}
+        style={{ marginTop: "10vh" }}
+      />
       <Box
         sx={{
           mt: 10,
@@ -76,7 +87,7 @@ const LoginScreen = () => {
           padding: 3,
           borderTopLeftRadius: 20,
           borderTopRightRadius: 20,
-          height: '100vh',
+          height: "100vh",
           width: "100%",
         }}
       >
@@ -93,7 +104,6 @@ const LoginScreen = () => {
             <Controller
               name="language"
               control={control}
-              defaultValue={language}
               render={({ field }) => (
                 <Select
                   {...field}
@@ -113,17 +123,21 @@ const LoginScreen = () => {
             />
           </Box>
           <FormControl fullWidth margin="normal" variant="outlined">
-            <InputLabel htmlFor="username">{t('LOGIN.USERNAME')}</InputLabel>
+            <InputLabel htmlFor="username">{t("LOGIN.USERNAME")}</InputLabel>
             <Controller
               name="username"
               control={control}
               render={({ field }) => (
-                <OutlinedInput {...field} id="username" label={t('LOGIN.USERNAME')} />
+                <OutlinedInput
+                  {...field}
+                  id="username"
+                  label={t("LOGIN.USERNAME")}
+                />
               )}
             />
           </FormControl>
           <FormControl fullWidth margin="normal" variant="outlined">
-            <InputLabel htmlFor="password">{t('LOGIN.PASSWORD')}</InputLabel>
+            <InputLabel htmlFor="password">{t("LOGIN.PASSWORD")}</InputLabel>
             <Controller
               name="password"
               control={control}
@@ -132,7 +146,7 @@ const LoginScreen = () => {
                   {...field}
                   id="password"
                   type={showPassword ? "text" : "password"}
-                  label={t('LOGIN.PASSWORD')}
+                  label={t("LOGIN.PASSWORD")}
                   endAdornment={
                     <InputAdornment position="end">
                       <IconButton
@@ -156,7 +170,7 @@ const LoginScreen = () => {
               mt: 1,
             }}
           >
-            <Button variant="text">{t('LOGIN.FORGOTPASSWORD')}</Button>
+            <Button variant="text">{t("LOGIN.FORGOTPASSWORD")}</Button>
           </Box>
           <FormControlLabel
             sx={{
@@ -166,7 +180,7 @@ const LoginScreen = () => {
               mt: 1,
             }}
             control={<Checkbox defaultChecked />}
-            label={t('LOGIN.REMEMBERME')}
+            label={t("LOGIN.REMEMBERME")}
           />
           <Button
             type="submit"
@@ -181,7 +195,7 @@ const LoginScreen = () => {
               color: "black", // Text color
             }}
           >
-            {t('LOGIN.LOGIN')}
+            {t("LOGIN.LOGIN")}
           </Button>
         </form>
       </Box>

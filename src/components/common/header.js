@@ -32,7 +32,7 @@ const {t} = useTranslation();
 
     const handleHome = () => {
      
-        navigate("/")
+      window.location.assign("/");
       };
 
   return (

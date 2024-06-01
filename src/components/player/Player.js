@@ -1,20 +1,24 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import "./Player.css";
-import { useLocation } from 'react-router-dom';
+import { useLocation } from "react-router-dom";
 import $ from "jquery";
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
 import "@project-sunbird/sunbird-quml-player-web-component/styles.css";
 import "@project-sunbird/sunbird-quml-player-web-component/sunbird-quml-player";
 import { assessmentTracking } from "../../apis/assessment";
 import { useNavigate } from "react-router-dom";
 
 function Player() {
+   
+  const [score, setScore] = useState(0)
+
   let trackData = [];
   let apiCalled = false;
   const location = useLocation();
   const { sectionContent } = location.state || {};
   const navigate = useNavigate();
+
+  const identifierWithoutImg = sectionContent.identifier.replace(".img", "");
+  const maxScore = sectionContent.maxScore;
 
   let metadata = sectionContent;
   const playerConfig = {
@@ -73,9 +77,6 @@ function Player() {
     },
   };
 
-  const maxScore = sectionContent?.maxScore;
-  
-
   const sunbirdQumlPlayerRef = useRef(null);
   window.jQuery = $;
   window.questionListUrl = "https://sunbirdsaas.com/api/question/v1/list";
@@ -85,7 +86,6 @@ function Player() {
 
     const handleTelemetryEvent = async (event) => {
       console.log("Telemetry Event", event?.detail);
-
       const data = event?.detail;
       let telemetry = {};
 
@@ -119,20 +119,39 @@ function Player() {
           });
         }
 
-        // console.log(telemetry, trackData);
         localStorage.setItem("trackDATA", JSON.stringify(trackData));
       } else if (telemetry?.eid === "END") {
-        let milliseconds = event?.detail?.edata?.duration;
-        let seconds = milliseconds / 1000;
+
+
+        console.log(event?.detail?.edata);
+        
+        console.log(event?.detail?.edata?.summary[4]?.score);
+
+        let originalDuration = event?.detail?.edata?.duration;
+        let newDuration = originalDuration / 10;
+        let seconds = (newDuration = Math.round(newDuration * 10) / 10);
+
         localStorage.setItem("totalDuration", seconds);
+        localStorage.setItem(
+          "totalScore",
+          event?.detail?.edata?.summary[4]?.score
+        );
       }
 
+      const scoreString = localStorage.getItem("totalScore");
+      const totalScore = Number(scoreString);
+      console.log(totalScore);
+      setScore(totalScore)
+      console.log(score);
       const endPageSeen = telemetry?.edata?.extra?.find(
         (item) => item.id === "endpageseen"
       );
 
       if (endPageSeen && endPageSeen.value === "true" && !apiCalled) {
-        apiCalled = true; // Set the flag to true to prevent multiple API calls
+        apiCalled = true;
+
+        
+
 
         let trackDataOld = localStorage.getItem("trackDATA");
         let trackDataParsed = JSON.parse(trackDataOld);
@@ -156,13 +175,29 @@ function Player() {
         }, []);
 
         scoreDetails = JSON.stringify(newFormatData);
-        // console.log(scoreDetails);
-        await assessmentTracking(scoreDetails);
-        toast.success("Assessment submitted successfully", {
-          position: "top-center"
-        });
-        navigate('/dashboard')
+
         
+
+        const secondsString = localStorage.getItem("totalDuration");
+        const seconds = Number(secondsString);
+        console.log("SECONDS" + seconds);
+    
+
+        try {
+          await assessmentTracking(
+            scoreDetails,
+            identifierWithoutImg,
+            maxScore,
+            score,
+            seconds
+          );
+
+          alert("Assessment submitted successfully");
+
+          window.location.assign("/");
+        } catch (error) {
+          console.error("Error submitting assessment:", error);
+        }
       } else {
         console.log("End page not seen, API call not made.");
       }
@@ -171,24 +206,17 @@ function Player() {
     playerElement.addEventListener("telemetryEvent", handleTelemetryEvent);
 
     return () => {
-      playerElement.removeEventListener(
-        "telemetryEvent",
-        handleTelemetryEvent
-      );
+      playerElement.removeEventListener("telemetryEvent", handleTelemetryEvent);
     };
   }, []);
 
   return (
-    <>
     <div className="App">
       <sunbird-quml-player
         player-config={JSON.stringify(playerConfig)}
         ref={sunbirdQumlPlayerRef}
       ></sunbird-quml-player>
-         
     </div>
-     <ToastContainer />
-     </>
   );
 }
 

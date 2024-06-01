@@ -1,16 +1,16 @@
 import instance from './interceptor';
 const CREATE_ASSESSMENT_API_URL = process.env.REACT_APP_CREATE_ASSESSMENT_API_URL;
 
-export const assessmentStatusCheck = async (userId) => {
+export const assessmentStatusCheck = async (userId , identifier) => {
   try {
     const response = await instance.post(
-        `${CREATE_ASSESSMENT_API_URL}/api/v1/tracking-assesment/list`,
+        `${CREATE_ASSESSMENT_API_URL}/tracking-assessment/v1/list`,
         {
           "filters": {
             "userId": userId,
-            "contentId": "do_2129493126207324161154"
+            "contentId": identifier
           },
-          "pagination": {
+          "pagination": { 
             "pageSize": 1,
             "page": 1
           },
@@ -97,29 +97,26 @@ export const mainContentSearch = async (identifier) => {
   }
 };
 
-export const assessmentTracking = async (scoreDetails) => {
+export const assessmentTracking = async (scoreDetails, identifierWithoutImg, maxScore, score , seconds) => {
+
+  console.log(scoreDetails);
 
   const userId = localStorage.getItem('userId')
+
   try {
     const response = await instance.post(
-        `${CREATE_ASSESSMENT_API_URL}/api/v1/tracking-assesment`,
+        `${CREATE_ASSESSMENT_API_URL}/tracking-assessment/v1/create`,
         {
           'userId': userId,
           'courseId': 'testID1234',
           'batchId': '01295501508689100844',
-          'contentId': 'do_2129493126207324161154',
+          'contentId': identifierWithoutImg,
           'attemptId': '638a8d6240f8df4b8cc5ef9b79fa0d67',
-          'assessmentSummary': [
-            {
-              'data': scoreDetails,
-              'sectionId': 'do_1140003637694791681636',
-              'sectionName': 'Level 1'
-            }
-          ],
-          'totalMaxScore': 8,
-          'totalScore': 1,
+          'assessmentSummary': [scoreDetails],
+          'totalMaxScore': maxScore || 0,
+          'totalScore': score || 0,
           "lastAttemptedOn": "2024-05-17 10:14:59.931232+00",
-          'timeSpent': 0
+          'timeSpent': seconds || 0
         },
         {
           headers: {
