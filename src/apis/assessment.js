@@ -102,14 +102,14 @@ export const assessmentTracking = async (scoreDetails, identifierWithoutImg, max
   console.log(scoreDetails);
 
   const userId = localStorage.getItem('userId')
-
+  const batchId = localStorage.getItem("cohortId");
   try {
     const response = await instance.post(
         `${CREATE_ASSESSMENT_API_URL}/tracking-assessment/v1/create`,
         {
           'userId': userId,
-          'courseId': 'testID1234',
-          'batchId': '01295501508689100844',
+          'courseId': identifierWithoutImg,
+          'batchId': batchId,
           'contentId': identifierWithoutImg,
           'attemptId': '638a8d6240f8df4b8cc5ef9b79fa0d67',
           'assessmentSummary': [scoreDetails],

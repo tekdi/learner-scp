@@ -25,6 +25,7 @@ const MainComponent = () => {
         const token = localStorage.getItem("authToken");
         const userID = await userIdApi(token);
         const cohort = await cohortSearch(userID.result.userId, token);
+        localStorage.setItem("cohortId", cohort.result.results.cohortDetails[0].cohortData.cohortId);
         const cohortValue = "Maharashtra"; // Hardcoded for demonstration
 
         if (cohortValue) {

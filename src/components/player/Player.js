@@ -216,16 +216,20 @@ const Player = () => {
           top: '50%', 
           left: '50%', 
           transform: 'translate(-50%, -50%)', 
-          width: 400, 
+          width: 300, 
           bgcolor: 'background.paper', 
         
           boxShadow: 2, 
           p: 2 
         }}>
-          <Typography id="modal-title" variant="h6" component="h2">
-            Assessment submitted successfully
+          <Typography id="modal-title" >
+            Test completed
           </Typography>
-          <Button onClick={handleClose} variant="contained" color="primary">
+          <Button onClick={handleClose} variant="fill" color="primary" sx={{
+              width: "100%",
+              borderRadius: "50px",
+              mt: 2,
+              bgcolor: "#fdbe16"  }}>
             OK
           </Button>
         </Box>
