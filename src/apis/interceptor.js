@@ -7,7 +7,6 @@ const refreshToken = async () => {
   const refresh_token = localStorage.getItem('refreshToken');
   if (refresh_token !== '' && refresh_token !== null) {
     try {
-        
       const response = await refresh({ refresh_token });
       if (response) {
         const accessToken = response?.access_token;
@@ -17,9 +16,11 @@ const refreshToken = async () => {
         return accessToken;
       }
     } catch (error) {
-      console.error('Token refresh failed:', error);
+      console.error('Token refresh failed:', error.response?.data || error.message);
       throw error;
     }
+  } else {
+    console.error('No refresh token available');
   }
 };
 
@@ -31,9 +32,6 @@ instance.interceptors.request.use(
         config.headers.Authorization = `Bearer ${token}`;
       }
     }
-    // config.headers.tenantid = '4783a636-1191-487a-8b09-55eca51b5036';
-    // config.headers.tenantid = 'fbe108db-e236-48a7-8230-80d34c370800';
-    // config.headers.tenantid = 'ef99949b-7f3a-4a5f-806a-e67e683e38f3';
     return config;
   },
   (error) => {
@@ -43,27 +41,26 @@ instance.interceptors.request.use(
 
 instance.interceptors.response.use(
   (response) => {
-    // console.log(response);
     return response;
   },
   async (error) => {
     const originalRequest = error.config;
-
-    if (error.response.data.responseCode === 401 && !originalRequest._retry) {
-      
+    if (error.response?.status === 401 && !originalRequest._retry) {
+      originalRequest._retry = true;
       if (error?.response?.request?.responseURL.includes('/auth/refresh')) {
-        window.location.href = '/logout';
+        localStorage.clear();
+        window.location.href = '/';
       } else {
-        originalRequest._retry = true;
         try {
           const accessToken = await refreshToken();
           if (!accessToken) {
-            window.location.href = '/logout';
+            window.location.href = '/';
           } else {
             originalRequest.headers.Authorization = `Bearer ${accessToken}`;
             return instance(originalRequest);
           }
         } catch (refreshError) {
+          console.error('Failed to retry original request after refreshing token:', refreshError.response?.data || refreshError.message);
           return Promise.reject(refreshError);
         }
       }

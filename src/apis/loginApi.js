@@ -68,7 +68,7 @@ export const cohortSearch = async (userID, token) => {
 };
 
 export const refresh = async (params) => {
-  const apiUrl = `${BASE_API_URL}/auth/refresh`;
+  const apiUrl = `${BASE_API_URL}/user/v1/auth/refresh`;
   try {
     const response = await instance.post(apiUrl, { refresh_token: params.refresh_token });
     return response.data;
