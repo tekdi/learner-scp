@@ -1,15 +1,15 @@
-import { useEffect, useRef, useState } from "react";
-import "./Player.css";
-import { useLocation } from "react-router-dom";
+import React, { useState, useEffect, useRef } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import $ from "jquery";
 import "@project-sunbird/sunbird-quml-player-web-component/styles.css";
 import "@project-sunbird/sunbird-quml-player-web-component/sunbird-quml-player";
 import { assessmentTracking } from "../../apis/assessment";
-import { useNavigate } from "react-router-dom";
+import { Modal, Box, Button, Typography } from "@mui/material";
+import "./Player.css";
 
-function Player() {
-   
-  const [score, setScore] = useState(0)
+const Player = () => {
+  const [score, setScore] = useState(0);
+  const [modalOpen, setModalOpen] = useState(false);
 
   let trackData = [];
   let apiCalled = false;
@@ -60,7 +60,6 @@ function Player() {
         l4: "string",
       },
       host: "",
-      // endpoint: "/data/v3/telemetry",
       userData: metadata?.userData ? metadata?.userData : {},
     },
     metadata: metadata,
@@ -121,12 +120,6 @@ function Player() {
 
         localStorage.setItem("trackDATA", JSON.stringify(trackData));
       } else if (telemetry?.eid === "END") {
-
-
-        console.log(event?.detail?.edata);
-        
-        console.log(event?.detail?.edata?.summary[4]?.score);
-
         let originalDuration = event?.detail?.edata?.duration;
         let newDuration = originalDuration / 10;
         let seconds = (newDuration = Math.round(newDuration * 10) / 10);
@@ -140,8 +133,7 @@ function Player() {
 
       const scoreString = localStorage.getItem("totalScore");
       const totalScore = Number(scoreString);
-      console.log(totalScore);
-      setScore(totalScore)
+      setScore(totalScore);
       console.log(score);
       const endPageSeen = telemetry?.edata?.extra?.find(
         (item) => item.id === "endpageseen"
@@ -149,9 +141,6 @@ function Player() {
 
       if (endPageSeen && endPageSeen.value === "true" && !apiCalled) {
         apiCalled = true;
-
-        
-
 
         let trackDataOld = localStorage.getItem("trackDATA");
         let trackDataParsed = JSON.parse(trackDataOld);
@@ -176,12 +165,9 @@ function Player() {
 
         scoreDetails = JSON.stringify(newFormatData);
 
-        
-
         const secondsString = localStorage.getItem("totalDuration");
         const seconds = Number(secondsString);
         console.log("SECONDS" + seconds);
-    
 
         try {
           await assessmentTracking(
@@ -192,9 +178,7 @@ function Player() {
             seconds
           );
 
-          alert("Assessment submitted successfully");
-
-          window.location.assign("/");
+          setModalOpen(true);
         } catch (error) {
           console.error("Error submitting assessment:", error);
         }
@@ -210,14 +194,44 @@ function Player() {
     };
   }, []);
 
+  const handleClose = () => {
+    setModalOpen(false);
+    window.location.assign("/");
+  };
+
   return (
     <div className="App">
       <sunbird-quml-player
         player-config={JSON.stringify(playerConfig)}
         ref={sunbirdQumlPlayerRef}
       ></sunbird-quml-player>
+      <Modal
+        open={modalOpen}
+        onClose={handleClose}
+        aria-labelledby="modal-title"
+        aria-describedby="modal-description"
+      >
+        <Box sx={{ 
+          position: 'absolute', 
+          top: '50%', 
+          left: '50%', 
+          transform: 'translate(-50%, -50%)', 
+          width: 400, 
+          bgcolor: 'background.paper', 
+        
+          boxShadow: 2, 
+          p: 2 
+        }}>
+          <Typography id="modal-title" variant="h6" component="h2">
+            Assessment submitted successfully
+          </Typography>
+          <Button onClick={handleClose} variant="contained" color="primary">
+            OK
+          </Button>
+        </Box>
+      </Modal>
     </div>
   );
-}
+};
 
 export default Player;
