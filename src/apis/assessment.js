@@ -97,36 +97,60 @@ export const mainContentSearch = async (identifier) => {
   }
 };
 
-export const assessmentTracking = async (scoreDetails, identifierWithoutImg, maxScore, score , seconds) => {
+export const assessmentTracking = async (scoreDetailsString, identifierWithoutImg, maxScore, seconds) => {
+  // Parse the scoreDetails string into a JSON object
+  let scoreDetails;
+  try {
+    scoreDetails = JSON.parse(scoreDetailsString);
+  } catch (e) {
+    console.error("Error parsing scoreDetails string", e);
+    throw new Error("Invalid scoreDetails format");
+  }
+
+  // Calculate the total score
+  let totalScore = 0;
+  if (Array.isArray(scoreDetails)) {
+    totalScore = scoreDetails.reduce((sectionTotal, section) => {
+      const sectionScore = section.data.reduce((itemTotal, item) => {
+        return itemTotal + (item.score || 0);
+      }, 0);
+      return sectionTotal + sectionScore;
+    }, 0);
+  } else {
+    console.error("Parsed scoreDetails is not an array");
+    throw new Error("Invalid scoreDetails format");
+  }
 
   console.log(scoreDetails);
 
-  const userId = localStorage.getItem('userId')
+  const userId = localStorage.getItem('userId');
   const batchId = localStorage.getItem("cohortId");
   try {
     const response = await instance.post(
-        `${CREATE_ASSESSMENT_API_URL}/tracking-assessment/v1/create`,
-        {
-          'userId': userId,
-          'courseId': identifierWithoutImg,
-          'batchId': batchId,
-          'contentId': identifierWithoutImg,
-          'attemptId': '638a8d6240f8df4b8cc5ef9b79fa0d67',
-          'assessmentSummary': [scoreDetails],
-          'totalMaxScore': maxScore || 0,
-          'totalScore': score || 0,
-          "lastAttemptedOn": "2024-05-17 10:14:59.931232+00",
-          'timeSpent': seconds || 0
-        },
-        {
-          headers: {
-            'accept': '*/*',
-            'Content-Type': 'application/json'
-          }
+      `${CREATE_ASSESSMENT_API_URL}/tracking-assessment/v1/create`,
+      {
+        'userId': userId,
+        'courseId': identifierWithoutImg,
+        'batchId': batchId,
+        'contentId': identifierWithoutImg,
+        'attemptId': '638a8d6240f8df4b8cc5ef9b79fa0d67',
+        'assessmentSummary': [scoreDetails],
+        'totalMaxScore': maxScore || 0,
+        'totalScore': totalScore || 0,
+        'lastAttemptedOn': new Date().toISOString(),
+        'timeSpent': seconds || 0
+      },
+      {
+        headers: {
+          'accept': '*/*',
+          'Content-Type': 'application/json'
         }
-      );
+      }
+    );
     return response.data;
   } catch (error) {
-    throw new Error(error.response?.data?.message || alert('Assessment Submission Failed'));
+    throw new Error(error.response?.data?.message || 'Assessment Submission Failed');
   }
 };
+
+
