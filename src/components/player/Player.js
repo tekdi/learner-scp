@@ -8,7 +8,6 @@ import { Modal, Box, Button, Typography } from "@mui/material";
 import "./Player.css";
 
 const Player = () => {
-  const [score, setScore] = useState(0);
   const [modalOpen, setModalOpen] = useState(false);
 
   let trackData = [];
@@ -125,16 +124,8 @@ const Player = () => {
         let seconds = (newDuration = Math.round(newDuration * 10) / 10);
 
         localStorage.setItem("totalDuration", seconds);
-        localStorage.setItem(
-          "totalScore",
-          event?.detail?.edata?.summary[4]?.score
-        );
       }
 
-      const scoreString = localStorage.getItem("totalScore");
-      const totalScore = Number(scoreString);
-      setScore(totalScore);
-      console.log(score);
       const endPageSeen = telemetry?.edata?.extra?.find(
         (item) => item.id === "endpageseen"
       );
@@ -174,7 +165,6 @@ const Player = () => {
             scoreDetails,
             identifierWithoutImg,
             maxScore,
-            score,
             seconds
           );
 
@@ -211,25 +201,31 @@ const Player = () => {
         aria-labelledby="modal-title"
         aria-describedby="modal-description"
       >
-        <Box sx={{ 
-          position: 'absolute', 
-          top: '50%', 
-          left: '50%', 
-          transform: 'translate(-50%, -50%)', 
-          width: 300, 
-          bgcolor: 'background.paper', 
-        
-          boxShadow: 2, 
-          p: 2 
-        }}>
-          <Typography id="modal-title" >
-            Test completed
-          </Typography>
-          <Button onClick={handleClose} variant="fill" color="primary" sx={{
+        <Box
+          sx={{
+            position: "absolute",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+            width: 300,
+            bgcolor: "background.paper",
+
+            boxShadow: 2,
+            p: 2,
+          }}
+        >
+          <Typography id="modal-title">Test completed</Typography>
+          <Button
+            onClick={handleClose}
+            variant="fill"
+            color="primary"
+            sx={{
               width: "100%",
               borderRadius: "50px",
               mt: 2,
-              bgcolor: "#fdbe16"  }}>
+              bgcolor: "#fdbe16",
+            }}
+          >
             OK
           </Button>
         </Box>
