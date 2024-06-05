@@ -17,7 +17,8 @@ export const loginApi = async (username, password) => {
 
     return response.data;
   } catch (error) {
-    throw new Error(error.response?.data?.message || "Login failed");
+    console.log(error?.response?.data?.params?.errmsg);
+    throw new Error(error.response?.data?.params?.errmsg || "Login failed");
   }
 };
 

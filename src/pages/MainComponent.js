@@ -43,7 +43,6 @@ const MainComponent = () => {
 
   const handleCardClick = (identifier) => {
     localStorage.setItem("identifier", identifier);
-    console.log(identifier);
     navigate(`/dashboard/${identifier}`);
   };
 

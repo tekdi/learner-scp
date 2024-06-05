@@ -12,6 +12,7 @@ import {
   Select,
   IconButton,
   InputAdornment,
+  Typography,
 } from "@mui/material";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import logo from "../assets/whiteLogo.png";
@@ -26,6 +27,7 @@ const LoginScreen = () => {
   const { language, changeLanguage } = useLanguage();
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(""); // Add error state
   const { control, handleSubmit, setValue } = useForm({
     defaultValues: {
       language: language,
@@ -46,15 +48,15 @@ const LoginScreen = () => {
 
   const onSubmit = async (data) => {
     setLoading(true);
+    setError(""); // Clear previous errors
     try {
-      // console.log("token", process.env.REACT_APP_SAAS_TOKEN);
       const result = await loginApi(data.username, data.password);
-      console.log("Login successful");
       localStorage.setItem("authToken", result?.result?.access_token);
       localStorage.setItem("refreshToken", result?.result?.refresh_token);
       navigate("/");
     } catch (error) {
       console.error("Login failed:", error.message);
+      setError(error.message); // Set the error message
     } finally {
       setLoading(false);
     }
@@ -92,6 +94,11 @@ const LoginScreen = () => {
         }}
       >
         <form onSubmit={handleSubmit(onSubmit)}>
+          {error && (
+            <Typography color="error" sx={{ mb: 2 }}>
+              {error}
+            </Typography>
+          )}
           <Box
             sx={{
               display: "flex",

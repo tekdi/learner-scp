@@ -121,8 +121,6 @@ export const assessmentTracking = async (scoreDetailsString, identifierWithoutIm
     throw new Error("Invalid scoreDetails format");
   }
 
-  console.log(scoreDetails);
-
   const userId = localStorage.getItem('userId');
   const batchId = localStorage.getItem("cohortId");
   try {

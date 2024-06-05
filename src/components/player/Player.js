@@ -158,7 +158,6 @@ const Player = () => {
 
         const secondsString = localStorage.getItem("totalDuration");
         const seconds = Number(secondsString);
-        console.log("SECONDS" + seconds);
 
         try {
           await assessmentTracking(
