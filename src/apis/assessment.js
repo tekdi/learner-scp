@@ -98,7 +98,9 @@ export const mainContentSearch = async (identifier) => {
 };
 
 export const assessmentTracking = async (scoreDetailsString, identifierWithoutImg, maxScore, seconds) => {
-  // Parse the scoreDetails string into a JSON object
+
+
+  scoreDetailsString
   let scoreDetails;
   try {
     scoreDetails = JSON.parse(scoreDetailsString);
@@ -132,7 +134,7 @@ export const assessmentTracking = async (scoreDetailsString, identifierWithoutIm
         'batchId': batchId,
         'contentId': identifierWithoutImg,
         'attemptId': '638a8d6240f8df4b8cc5ef9b79fa0d67',
-        'assessmentSummary': [scoreDetails],
+        'assessmentSummary': [scoreDetailsString],
         'totalMaxScore': maxScore || 0,
         'totalScore': totalScore || 0,
         'lastAttemptedOn': new Date().toISOString(),
