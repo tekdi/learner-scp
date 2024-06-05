@@ -125,6 +125,8 @@ const LoginScreen = () => {
                 >
                   <MenuItem value="en">English</MenuItem>
                   <MenuItem value="hi">हिंदी</MenuItem>
+                  <MenuItem value="od">Odia</MenuItem>
+                  <MenuItem value="ma">Marathi</MenuItem>
                 </Select>
               )}
             />
