@@ -99,8 +99,6 @@ export const mainContentSearch = async (identifier) => {
 
 export const assessmentTracking = async (scoreDetailsString, identifierWithoutImg, maxScore, seconds) => {
 
-
-  scoreDetailsString
   let scoreDetails;
   try {
     scoreDetails = JSON.parse(scoreDetailsString);
