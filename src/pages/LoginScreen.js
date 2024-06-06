@@ -171,16 +171,7 @@ const LoginScreen = () => {
               )}
             />
           </FormControl>
-          <Box
-            sx={{
-              display: "flex",
-              justifyContent: "flex-start",
-              width: "100%",
-              mt: 1,
-            }}
-          >
-            <Button variant="text">{t("LOGIN.FORGOTPASSWORD")}</Button>
-          </Box>
+       
           <FormControlLabel
             sx={{
               display: "flex",
