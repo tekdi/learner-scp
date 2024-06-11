@@ -98,7 +98,7 @@ export const mainContentSearch = async (identifier) => {
 };
 
 export const assessmentTracking = async (scoreDetailsString, identifierWithoutImg, maxScore, seconds) => {
-
+   
   let scoreDetails;
   try {
     scoreDetails = JSON.parse(scoreDetailsString);

@@ -97,6 +97,8 @@ const Player = () => {
 
       if (telemetry?.eid === "ASSESS") {
         const edata = telemetry?.edata;
+
+        if (edata?.resvalues && edata?.resvalues.length > 0) {
         const existingDataIndex = trackData.findIndex(
           (e) => e?.item?.id === edata?.item?.id
         );
@@ -116,7 +118,7 @@ const Player = () => {
             )?.name,
           });
         }
-
+      }
         localStorage.setItem("trackDATA", JSON.stringify(trackData));
       } else if (telemetry?.eid === "END") {
         let originalDuration = event?.detail?.edata?.duration;
@@ -234,3 +236,5 @@ const Player = () => {
 };
 
 export default Player;
+
+
