@@ -54,7 +54,7 @@ instance.interceptors.response.use(
         try {
           const accessToken = await refreshToken();
           if (!accessToken) {
-            window.location.href = '/';
+            window.location.href = '/login';
           } else {
             originalRequest.headers.Authorization = `Bearer ${accessToken}`;
             return instance(originalRequest);
