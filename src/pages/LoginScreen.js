@@ -125,8 +125,8 @@ const LoginScreen = () => {
                 >
                   <MenuItem value="en">English</MenuItem>
                   <MenuItem value="hi">हिंदी</MenuItem>
-                  <MenuItem value="od">Odia</MenuItem>
-                  <MenuItem value="ma">Marathi</MenuItem>
+                  <MenuItem value="or">ଓଡ଼ିଆ</MenuItem>
+                  <MenuItem value="mr">मराठी</MenuItem>
                 </Select>
               )}
             />

@@ -3,8 +3,8 @@ import { initReactI18next } from 'react-i18next';
 
 import enTranslation from './locales/en/translation.json';
 import hiTranslation from './locales/hi/translation.json';
-import odTranslation from './locales/od/translation.json';
-import maTranslation from './locales/ma/translation.json';
+import orTranslation from './locales/or/translation.json';
+import mrTranslation from './locales/mr/translation.json';
 
 i18n
   .use(initReactI18next) // Passes i18n down to react-i18next
@@ -16,11 +16,11 @@ i18n
       hi: {
         translation: hiTranslation,
       },
-      od: {
-        translation: odTranslation,
+      or: {
+        translation: orTranslation,
       },
-      ma: {
-        translation: maTranslation,
+      mr: {
+        translation: mrTranslation,
       }
     },
     lng: 'en', // Default language
