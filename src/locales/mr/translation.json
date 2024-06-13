@@ -4,7 +4,8 @@
       "PASSWORD": "पासवर्ड",
       "REMEMBERME": "मला लक्षात ठेवा",
       "FORGOTPASSWORD": "पासवर्ड विसरलात?",
-      "LOGIN": "लॉगिन"
+      "LOGIN": "लॉगिन",
+      "INVALID_USERNAME_OR_PASSWORD" : "अवैध वापरकर्तानाव किंवा पासवर्ड"
     },
   
     "MAIN": {

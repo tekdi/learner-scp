@@ -96,7 +96,7 @@ const LoginScreen = () => {
         <form onSubmit={handleSubmit(onSubmit)}>
           {error && (
             <Typography color="error" sx={{ mb: 2 }}>
-              {error}
+              {t("LOGIN.INVALID_USERNAME_OR_PASSWORD")}
             </Typography>
           )}
           <Box

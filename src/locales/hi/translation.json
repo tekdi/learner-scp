@@ -4,7 +4,8 @@
     "PASSWORD": "पासवर्ड",
     "REMEMBERME": "मुझे याद रखें",
     "FORGOTPASSWORD": "पासवर्ड भूल गए?",
-    "LOGIN": "लॉग इन"
+    "LOGIN": "लॉग इन",
+    "INVALID_USERNAME_OR_PASSWORD" : "अमान्य उपयोगकर्ता नाम या पासवर्ड"
   },
   "MAIN": {
     "HEADING_1": "पूर्व परीक्षा",

@@ -4,7 +4,8 @@
     "PASSWORD": "ପାସୱାର୍ଡ",
     "REMEMBERME": "ମୋତେ ମାନେ ରଖ",
     "FORGOTPASSWORD": "ପାସୱାର୍ଡ ଭୁଲିଗଲ",
-    "LOGIN": "ଲଗ-ଇନ"
+    "LOGIN": "ଲଗ-ଇନ",
+    "INVALID_USERNAME_OR_PASSWORD" : "ଅବ val ଧ ଚାଳକନାମ କିମ୍ବା ପାସୱାର୍ଡ"
   },
   "MAIN": {
     "HEADING_1": "ପ୍ରି-ଟେଷ୍ଟ",

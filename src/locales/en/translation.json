@@ -4,7 +4,9 @@
     "PASSWORD": "Password",
     "REMEMBERME": "Remember Me",
     "FORGOTPASSWORD": "Forgot Password?",
-    "LOGIN": "Login"
+    "LOGIN": "Login",
+    "INVALID_USERNAME_OR_PASSWORD" : "Invalid username or password"
+    
   },
 
   "MAIN": {
