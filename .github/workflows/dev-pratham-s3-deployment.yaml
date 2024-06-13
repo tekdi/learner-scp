@@ -4,7 +4,7 @@ on:
     branches:
       - june15-pilot
 jobs:
-  build_and_test:
+  DEV-LEARNER-S3:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -14,11 +14,13 @@ jobs:
         with:
           node-version: 20
       - name: Set CI environment variable to false
-        run: echo "CI=false" >> $GITHUB_ENV
+        run: |
+         echo "CI=false" >> $GITHUB_ENV
+         ls -ltra
       - name: Add env variable
         run: |
-          echo "" >> .env
-          echo "REACT_APP_SAAS_TOKEN=${{ secrets.REACT_APP_SAAS_TOKEN }}" >> .env
+          echo "${{ secrets.DEV_ENV }}" >> .env
+          ls -ltra
       - name: npm install, build
         run: |
           npm install
