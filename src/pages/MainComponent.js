@@ -25,8 +25,9 @@ const MainComponent = () => {
         const token = localStorage.getItem("authToken");
         const userID = await userIdApi(token);
         const cohort = await cohortSearch(userID.result.userId, token);
-        localStorage.setItem("cohortId", cohort.result.results.cohortDetails[0].cohortData.cohortId);
-        const cohortValue = "Maharashtra"; // Hardcoded for demonstration
+        console.log(cohort?.result?.results?.cohortDetails[0]?.cohortData.customFields[3].value);
+        localStorage.setItem("cohortId", cohort?.result?.results?.cohortDetails[0]?.cohortData.customFields[3].value);
+        const cohortValue = cohort?.result?.results?.cohortDetails[0]?.cohortData.customFields[3].value; // Hardcoded for demonstration
 
         if (cohortValue) {
           const states = cohortValue.split(",")[0].trim();
@@ -82,7 +83,7 @@ const MainComponent = () => {
       </Box>
       <Box sx={{ p: 3 }}>
         <Typography variant="body1">{t("MAIN.HEADING_3")}</Typography>
-        {questionSets.length > 0 ? (
+        {questionSets?.length > 0 ? (
           <QuestionSetList
             questionSets={questionSets}
             onCardClick={handleCardClick}
