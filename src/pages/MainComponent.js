@@ -77,9 +77,9 @@ const MainComponent = () => {
         }}
       >
         <Typography variant="h6">{t("MAIN.HEADING_1")}</Typography>
-        <Typography variant="body2" color="textSecondary">
+        {/* <Typography variant="body2" color="textSecondary">
           {t("MAIN.HEADING_2")}
-        </Typography>
+        </Typography> */}
       </Box>
       <Box sx={{ p: 3 }}>
         <Typography variant="body1">{t("MAIN.HEADING_3")}</Typography>
