@@ -45,7 +45,9 @@ jobs:
 
       - name: Install AWS CLI
         run: |
-          sudo DEBIAN_FRONTEND=noninteractive apt-get install -y awscli --fix-missing
+            sudo apt-get update
+            sudo DEBIAN_FRONTEND=noninteractive apt-get install -y awscli --fix-missing
+          
 
       - name: Configure AWS credentials
         run: |
